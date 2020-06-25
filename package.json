@@ -32,7 +32,9 @@
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
     "typescript": "~3.9.3",
-    "vue-template-compiler": "^2.6.11"
+    "vue-template-compiler": "^2.6.11",
+    "opensheetmusicdisplay": "^0.7.6",
+    "tone": "^13.8.25"
   },
   "eslintConfig": {
     "root": true,
