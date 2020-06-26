@@ -5,12 +5,9 @@
 </template>
 
 <script lang="ts">
-    import {Vue} from 'vue-property-decorator';
+    import Vue from 'vue'
 
-    export default class HelloWorld extends Vue {
-    }
+    export default Vue.extend({
+        name: 'HelloWorld',
+    })
 </script>
-
-<style scoped>
-
-</style>

@@ -2,9 +2,9 @@
     <div>
         <h3>Keep it Simple</h3>
         <div>{{midiMsg}}</div>
-        <button @click="playOut('C3')">C3</button>
-        <button @click="playOut('D#3')">D#3</button>
-        <button @click="playOut('G3')">G3</button>
+        <v-btn @click="playOut('C3')">C3</v-btn>
+        <v-btn @click="playOut('D#3')">D#3</v-btn>
+        <v-btn @click="playOut('G3')">G3</v-btn>
         <div>
             <div v-for="item in loggerText" :key="item">
                 {{item}}
