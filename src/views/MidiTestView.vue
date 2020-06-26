@@ -20,7 +20,7 @@
     //必须导入这个，才能启用WebMidi
     import 'web-midi-api';
     //文档 https://github.com/djipco/webmidi
-    import WebMidi, {Input, InputEventNoteon, Output} from "webmidi";
+    //import WebMidi, {Input, InputEventNoteon, Output} from "webmidi";
 
     @Component({
         components: {PianoKeyboard}
@@ -61,7 +61,7 @@
             onMIDISuccess(midiAccess: any){
                 this.midiIn = midiAccess.inputs;
                 this.midiOut = midiAccess.outputs;
-                window['midiOut'] = this.midiOut;
+                //window['midiOut'] = this.midiOut;
             }
 
         playOut(note: string){
