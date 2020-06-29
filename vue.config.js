@@ -1,8 +1,4 @@
 module.exports = {
-  transpileDependencies: [
-    "vuetify"
-  ],
-
   pwa: {
     name: 'Kis Piano',
     manifestOptions: {

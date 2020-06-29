@@ -1,89 +1,59 @@
 <template>
-    <v-app>
-        <v-app-bar app color="indigo" dark dense >
-            <v-toolbar-title>Title</v-toolbar-title>
-        </v-app-bar>
+    <div>
+        <div class="app-content">
+            <div style="text-align: center;">
+                <HelloWorld/>
+                <HelloWorld/>
+                <HelloWorld/>
+                <HelloWorld/>
+                <HelloWorld/>
+                <HelloWorld/>
+                <HelloWorld/>
+                <HelloWorld/>
+            </div>
+        </div>
 
-        <v-btn class="mx-2" fab small fixed style="z-index: 99;bottom: 14px;left: 50%;transform: translate(-60%, 0);">
-            <v-icon dark>mdi-plus</v-icon>
-        </v-btn>
-        <v-bottom-navigation fixed height="40">
-            <v-btn @click="sheetLeftViews = !sheetLeftViews" style="position: absolute;left:0;" value="recent">
-                <v-icon>mdi-format-list-bulleted-square</v-icon>
-            </v-btn>
-            <v-btn @click="sheetRightUser = !sheetRightUser" style="position: absolute;right:0;" value="nearby">
-                <v-icon>mdi-cog-outline</v-icon>
-            </v-btn>
-        </v-bottom-navigation>
-
-        <v-bottom-sheet v-model="sheetLeftViews">
-            <v-sheet class="text-center" height="200px">
-                <div class="py-3">This is a bottom sheet using the controlled by v-model instead of activator</div>
-            </v-sheet>
-        </v-bottom-sheet>
-        <v-bottom-sheet v-model="sheetRightUser">
-            <v-sheet class="text-center" height="200px">
-                <div class="py-3">This is a bottom User UserUserUserUser</div>
-            </v-sheet>
-        </v-bottom-sheet>
-
-
-        <v-main class="overflow-y-auto">
-            <v-container class="fill-height" fluid>
-                <div class="home">
-                    <img alt="Vue logo" src="../assets/logo.png">
-                    <HelloWorld/>
+        <div class="bottom-navigation">
+            <div @click="sheetLeftViews = !sheetLeftViews" style="left:0;" class="bottom-navigation-btn btn btn-dark">
+                <b-icon-card-list></b-icon-card-list>
+            </div>
+            <button @click="showUserPlus()" type="button" class="btn bmn-btn-center bmd-btn-fab">
+                <b-icon-plus></b-icon-plus>
+            </button>
+            <div @click="sheetRightUser = !sheetRightUser" style="right:0;" class="bottom-navigation-btn btn btn-dark">
+                <b-icon-person-lines-fill></b-icon-person-lines-fill>
+            </div>
+        </div>
+        <transition name="slide-fade">
+            <div class="bottom-sheet" v-show="sheetLeftViews">
+                <div class="bottom-sheet-hide" @click="sheetLeftViews = false"></div>
+                <div class="bottom-sheet-content">
+                    <b-list-group>
+                        <b-list-group-item replace to="/">
+                            Home
+                        </b-list-group-item>
+                        <b-list-group-item replace to="/about">
+                            About
+                        </b-list-group-item>
+                        <b-list-group-item replace to="/test/piano">
+                            Piano
+                        </b-list-group-item>
+                        <b-list-group-item replace to="/test/midi">
+                            Midi
+                        </b-list-group-item>
+                    </b-list-group>
                 </div>
-                <div class="home">
-                    <img alt="Vue logo" src="../assets/logo.png">
-                    <HelloWorld/>
+            </div>
+        </transition>
+        <transition name="slide-fade">
+            <div class="bottom-sheet" v-show="sheetRightUser">
+                <div class="bottom-sheet-hide" @click="sheetRightUser = false"></div>
+                <div class="bottom-sheet-content">
+                    用户个人中心
                 </div>
-                <div class="home">
-                    <img alt="Vue logo" src="../assets/logo.png">
-                    <HelloWorld/>
-                </div>
-                <div class="home">
-                    <img alt="Vue logo" src="../assets/logo.png">
-                    <HelloWorld/>
-                </div>
-                <div class="home">
-                    <img alt="Vue logo" src="../assets/logo.png">
-                    <HelloWorld/>
-                </div>
-                <div class="home">
-                    <img alt="Vue logo" src="../assets/logo.png">
-                    <HelloWorld/>
-                </div>
-                <div class="home">
-                    <img alt="Vue logo" src="../assets/logo.png">
-                    <HelloWorld/>
-                </div>
-            </v-container>
-        </v-main>
-    </v-app>
-
-    <!--
-        <v-navigation-drawer v-model="drawer" app>
-            <v-list dense>
-                <v-list-item link replace to="/">
-                    <v-list-item-action><v-icon>mdi-home</v-icon></v-list-item-action>
-                    <v-list-item-content>Home</v-list-item-content>
-                </v-list-item>
-                <v-list-item link replace to="/about">
-                    <v-list-item-action><v-icon>mdi-email</v-icon></v-list-item-action>
-                    <v-list-item-content>About</v-list-item-content>
-                </v-list-item>
-                <v-list-item link replace to="/test/piano">
-                    <v-list-item-action><v-icon>mdi-email</v-icon></v-list-item-action>
-                    <v-list-item-content>Piano</v-list-item-content>
-                </v-list-item>
-                <v-list-item link replace to="/test/midi">
-                    <v-list-item-action><v-icon>mdi-email</v-icon></v-list-item-action>
-                    <v-list-item-content>Midi</v-list-item-content>
-                </v-list-item>
-            </v-list>
-        </v-navigation-drawer>
--->
+            </div>
+        </transition>
+    </div>
 </template>
 
 <script>
@@ -102,7 +72,96 @@
         }),
         mounted() {
             console.log("OK")
-            window['te'] = this;
+        },
+        methods: {
+            showUserPlus() {
+                this.$bvModal.msgBoxOk('开发中，敬请期待！', {centered: true});
+            },
         }
     }
 </script>
+
+<style scoped>
+    .app-content {
+        z-index: 1900;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 35px;
+        overflow: auto;
+    }
+
+    .bottom-navigation {
+        z-index: 2000;
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        height: 35px;
+        box-shadow: 0 2px 4px -1px rgba(0, 0, 0, .2), 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12);
+    }
+
+    .bottom-navigation .bottom-navigation-btn {
+        position: absolute;
+        height: 35px;
+        border: 0;
+        width: 55px;
+    }
+
+    .bottom-navigation .bmn-btn-center {
+        position: absolute;
+        bottom: 5px;
+        left: 50%;
+        background: #FFF;
+        width: 3rem !important;
+        min-width: 3rem !important;
+        height: 3rem !important;
+        margin-left: -1.5rem;
+    }
+
+    .bottom-sheet {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+    }
+
+    .bottom-sheet .bottom-sheet-hide {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        z-index: 2010;
+        background: #ffffff9c;
+    }
+
+    .bottom-sheet .bottom-sheet-content {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: #FFF;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        box-shadow: 0 2px 4px -1px rgba(0, 0, 0, .2), 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12);
+        padding: 10px;
+        z-index: 2011;
+        min-height: 100px;
+    }
+
+    .slide-fade-enter-active {
+        transition: all .3s ease;
+    }
+
+    .slide-fade-leave-active {
+        transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+    }
+
+    .slide-fade-enter, .slide-fade-leave-to {
+        transform: translateY(10px);
+        opacity: 0;
+    }
+</style>
