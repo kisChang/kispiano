@@ -83,7 +83,7 @@
 
 <style scoped>
     .app-content {
-        z-index: 1900;
+        z-index: 19;
         position: fixed;
         top: 0;
         left: 0;
@@ -93,7 +93,7 @@
     }
 
     .bottom-navigation {
-        z-index: 2000;
+        z-index: 20;
         position: fixed;
         right: 0;
         bottom: 0;
@@ -126,6 +126,7 @@
         right: 0;
         bottom: 0;
         top: 0;
+        z-index: 21;
     }
 
     .bottom-sheet .bottom-sheet-hide {
@@ -134,7 +135,7 @@
         right: 0;
         bottom: 0;
         top: 0;
-        z-index: 2010;
+        z-index: 21;
         background: #ffffff9c;
     }
 
@@ -148,7 +149,7 @@
         border-top-right-radius: 10px;
         box-shadow: 0 2px 4px -1px rgba(0, 0, 0, .2), 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12);
         padding: 10px;
-        z-index: 2011;
+        z-index: 22;
         min-height: 100px;
     }
 
