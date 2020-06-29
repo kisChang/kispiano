@@ -1,8 +1,13 @@
 module.exports = {
-  "pwa": {
-    "name": "Kis Piano"
-  },
-  "transpileDependencies": [
+  transpileDependencies: [
     "vuetify"
-  ]
-}
+  ],
+
+  pwa: {
+    name: 'Kis Piano',
+    manifestOptions: {
+      display: 'fullscreen'
+    },
+    workboxPluginMode: 'InjectManifest'
+  }
+};
