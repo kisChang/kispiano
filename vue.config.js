@@ -2,8 +2,7 @@ module.exports = {
   pwa: {
     name: 'Kis Piano',
     manifestOptions: {
-      display: 'fullscreen'
+      display: 'fullscreen',
     },
-    workboxPluginMode: 'InjectManifest'
   }
 };
