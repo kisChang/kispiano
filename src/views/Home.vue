@@ -41,10 +41,10 @@
                 <div class="bottom-sheet-content">
                     <b-list-group>
                         <b-list-group-item to="/test/piano">
-                            Piano
+                            键盘测试页
                         </b-list-group-item>
                         <b-list-group-item to="/test/midi">
-                            Midi
+                            Midi键盘测试页
                         </b-list-group-item>
                     </b-list-group>
                 </div>
