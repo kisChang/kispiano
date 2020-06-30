@@ -17,8 +17,8 @@ const routes: Array<RouteConfig> = [
         path: '/test/midi', name: 'MidiTestView', component: MidiTestView
     },
     {
-        path: '/about', name: 'About',
-        component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+        path: '/musicxml/view', name: 'MusicXmlView',
+        component: () => import('../views/MusicXmlView.vue')
     }
 ];
 

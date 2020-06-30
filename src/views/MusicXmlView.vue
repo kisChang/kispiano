@@ -8,10 +8,10 @@
     import MusicXmlView from "@/components/MusicXmlView.vue";
 
     export default {
-        components: {'musicxml-view': MusicXmlView},
         name: "tabbar-viewXml",
+        components: {'musicxml-view': MusicXmlView},
         mounted() {
-            const url = '/musicxml/Beethoven_AnDieFerneGeliebte.xml';
+            const url = `/musicxml/${this.$route.query.id}.xml`;
             console.log('option.url >>>' + url);
 
             const xhttp = new XMLHttpRequest();

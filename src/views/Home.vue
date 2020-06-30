@@ -1,15 +1,26 @@
 <template>
     <div>
         <div class="app-content">
+            <div class="input-group input-group-sm mb-1">
+                <form @submit="submitSearch()" style="width: 100%;">
+                    <input v-model="searchText" type="text" class="form-control" placeholder="请输入关键词">
+                </form>
+            </div>
+
             <div style="text-align: center;">
-                <HelloWorld/>
-                <HelloWorld/>
-                <HelloWorld/>
-                <HelloWorld/>
-                <HelloWorld/>
-                <HelloWorld/>
-                <HelloWorld/>
-                <HelloWorld/>
+                <div class="card mb-2" v-for="(item) in musicxmlList" :key="item.id" @click="toShowMusic(item)">
+                    <div class="row no-gutters">
+                        <div class="col-4 p-1">
+                            <img src="../assets/logo.png" style="width: 80px;left: 15px;" class="card-img align-middle-pos">
+                        </div>
+                        <div class="col-8">
+                            <div class="card-body text-left p-2">
+                                <h5 class="card-title">{{item.name}}</h5>
+                                <p class="card-text text-right"><small class="text-muted">{{item.lastUpdate}}</small></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -29,16 +40,13 @@
                 <div class="bottom-sheet-hide" @click="sheetLeftViews = false"></div>
                 <div class="bottom-sheet-content">
                     <b-list-group>
-                        <b-list-group-item replace to="/">
+                        <b-list-group-item to="/">
                             Home
                         </b-list-group-item>
-                        <b-list-group-item replace to="/about">
-                            About
-                        </b-list-group-item>
-                        <b-list-group-item replace to="/test/piano">
+                        <b-list-group-item to="/test/piano">
                             Piano
                         </b-list-group-item>
-                        <b-list-group-item replace to="/test/midi">
+                        <b-list-group-item to="/test/midi">
                             Midi
                         </b-list-group-item>
                     </b-list-group>
@@ -57,23 +65,44 @@
 </template>
 
 <script>
-    import HelloWorld from '@/components/HelloWorld.vue'
-
     //应用首页
     export default {
         name: 'Home',
-        components: {
-            HelloWorld
-        },
+        components: {},
         data: () => ({
-            sheetLeftViews: false,
-            sheetRightUser: false,
-            drawer: null,
+            /*数据和检索*/
+            searchText: '',
+
+            musicxmlList: [
+                /*{id: 1, name: 'An Chloe, K. 524', savePath: '/musicxml/1.xml', lastUpdate: '2020-06-30 10:00:00'},*/
+                {id: 2, name: 'An die ferne Geliebte, Op. 98', savePath: '/musicxml/2.xml', lastUpdate: '2020-06-30 10:00:00'},
+                {id: 3, name: 'Ave Maria D.839', savePath: '/musicxml/3.xml', lastUpdate: '2020-06-30 10:00:00'},
+                {id: 4, name: 'Beethoven_AnDieFerneGeliebte', savePath: '/musicxml/4.xml', lastUpdate: '2020-06-30 10:00:00'},
+                {id: 5, name: 'Das Veilchen, K. 476', savePath: '/musicxml/5.xml', lastUpdate: '2020-06-30 10:00:00'},
+                {id: 6, name: 'Dichterliebe, Op. 48', savePath: '/musicxml/6.xmll', lastUpdate: '2020-06-30 10:00:00'},
+                {id: 7, name: 'MuzioClementi_SonatinaOpus36No1_Part1', savePath: '/musicxml/7.xml', lastUpdate: '2020-06-30 10:00:00'},
+                {id: 8, name: 'MuzioClementi_SonatinaOpus36No1_Part2', savePath: '/musicxml/8.xml', lastUpdate: '2020-06-30 10:00:00'},
+                {id: 9, name: 'MuzioClementi_SonatinaOpus36No3_Part1', savePath: '/musicxml/9.xml', lastUpdate: '2020-06-30 10:00:00'},
+                {id: 10, name: 'MuzioClementi_SonatinaOpus36No3_Part2', savePath: '/musicxml/10.xml', lastUpdate: '2020-06-30 10:00:00'},
+                {id: 11, name: 'ScottJoplin_EliteSyncopations', savePath: '/musicxml/11.xml', lastUpdate: '2020-06-30 10:00:00'},
+                {id: 12, name: 'ScottJoplin_The_Entertainer', savePath: '/musicxml/12.xml', lastUpdate: '2020-06-30 10:00:00'},
+                {id: 13, name: 'Wie Melodien zieht es mir, Op. 105, No. 1', savePath: '/musicxml/13.xml', lastUpdate: '2020-06-30 10:00:00'},
+            ],
+
+            /*应用功能*/
+            sheetLeftViews: false, sheetRightUser: false,
         }),
         mounted() {
             console.log("OK")
         },
         methods: {
+            submitSearch(){
+                console.log('searchText >>>' + this.searchText);
+            },
+            toShowMusic(musicXml){
+                this.$router.push(`/musicxml/view?id=${musicXml.id}`)
+            },
+
             showUserPlus() {
                 this.$bvModal.msgBoxOk('开发中，敬请期待！', {centered: true});
             },
@@ -84,6 +113,12 @@
 <style scoped lang="less">
     @import url('../assets/style/variable.less');
 
+    .align-middle-pos{
+        position: absolute;
+        top: 50%;
+        transform: translate(0, -50%);
+    }
+
     .app-content {
         z-index: 19;
         position: fixed;
@@ -92,6 +127,7 @@
         right: 0;
         bottom: @btm-height;
         overflow: auto;
+        padding: 10px 10px 0;
     }
 
     .bottom-navigation {
