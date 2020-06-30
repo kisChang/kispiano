@@ -88,7 +88,7 @@
         top: 0;
         left: 0;
         right: 0;
-        bottom: 35px;
+        bottom: 50px;
         overflow: auto;
     }
 
@@ -98,20 +98,24 @@
         right: 0;
         bottom: 0;
         left: 0;
-        height: 35px;
+        height: 50px;
         box-shadow: 0 2px 4px -1px rgba(0, 0, 0, .2), 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12);
     }
 
     .bottom-navigation .bottom-navigation-btn {
         position: absolute;
-        height: 35px;
+        height: 50px;
         border: 0;
-        width: 55px;
+        width: 70px;
+        padding: 15px 10px;
+    }
+    .bottom-navigation-btn .b-icon{
+        font-size: 180%;
     }
 
     .bottom-navigation .bmn-btn-center {
         position: absolute;
-        bottom: 5px;
+        bottom: 10px;
         left: 50%;
         background: #FFF;
         width: 3rem !important;
