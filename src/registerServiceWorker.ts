@@ -4,16 +4,23 @@ import {register} from 'register-service-worker'
 
 // 改为在开发环境同样注册
 // if (process.env.NODE_ENV === 'production')
+const version = 'v1.0.0';
 
 register(`${process.env.BASE_URL}service-worker.js`, {
-    ready () {
-      console.log(
-        'App is being served from cache by a service worker.\n' +
-        'For more details, visit https://goo.gl/AFskqB'
-      )
+    ready(reg) {
+        console.log(
+            'App is being served from cache by a service worker.\n' +
+            'For more details, visit https://goo.gl/AFskqB'
+        );
     },
-    registered() {
+    registered(reg) {
         console.log('Service worker has been registered.')
+        if (localStorage.getItem('sw_version') !== version) {
+            console.error('Service worker need Update')
+            reg.update().then(function () {
+                localStorage.setItem('sw_version', version)
+            });
+        }
     },
     cached() {
         console.log('Content has been cached for offline use.')
