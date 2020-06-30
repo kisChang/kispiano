@@ -11,12 +11,14 @@
         data(){
             return{
                 osmd: null,
+                horizontalScreen: false,
             }
         },
         mounted() {
+            this.checkHorizontalScreen();
+
             this.osmd = new OpenSheetMusicDisplay(this.$refs.container, {
-                autoResize: true,
-                backend: 'Canvas',
+                autoResize: true, backend: 'Svg',
             });
             this.osmd.setLogLevel('info');
         },
@@ -26,6 +28,7 @@
                     .load(xmlContent)
                     .then(
                         () => {
+                            this.osmd.zoom = this.horizontalScreen ? 0.5 : 0.4;
                             this.osmd.render();
                             this.afterRender();
                         },
@@ -35,6 +38,15 @@
             afterRender() {
                 this.osmd.setOptions({autoResize: true});
             },
+            checkHorizontalScreen() {
+                if (window.orientation == 180 || window.orientation == 0) {
+                    this.horizontalScreen = false;
+                }
+                if (window.orientation == 90 || window.orientation == -90) {
+                    //alert("横屏状态！")
+                    this.horizontalScreen = true;
+                }
+            }
         }
     }
 </script>

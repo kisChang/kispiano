@@ -5,11 +5,11 @@
 </template>
 
 <script>
-    import MusicXmlView from "@/components/MusicXmlView.vue";
+    import MusicXmlDisplay from "@/components/MusicXmlDisplay.vue";
 
     export default {
         name: "tabbar-viewXml",
-        components: {'musicxml-view': MusicXmlView},
+        components: {'musicxml-view': MusicXmlDisplay},
         mounted() {
             const url = `/musicxml/${this.$route.query.id}.xml`;
             console.log('option.url >>>' + url);

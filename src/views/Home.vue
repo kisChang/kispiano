@@ -40,9 +40,6 @@
                 <div class="bottom-sheet-hide" @click="sheetLeftViews = false"></div>
                 <div class="bottom-sheet-content">
                     <b-list-group>
-                        <b-list-group-item to="/">
-                            Home
-                        </b-list-group-item>
                         <b-list-group-item to="/test/piano">
                             Piano
                         </b-list-group-item>
