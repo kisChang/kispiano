@@ -81,14 +81,16 @@
     }
 </script>
 
-<style scoped>
+<style scoped lang="less">
+    @import url('../assets/style/variable.less');
+
     .app-content {
         z-index: 19;
         position: fixed;
         top: 0;
         left: 0;
         right: 0;
-        bottom: 50px;
+        bottom: @btm-height;
         overflow: auto;
     }
 
@@ -98,13 +100,13 @@
         right: 0;
         bottom: 0;
         left: 0;
-        height: 50px;
+        height: @btm-height;
         box-shadow: 0 2px 4px -1px rgba(0, 0, 0, .2), 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12);
     }
 
     .bottom-navigation .bottom-navigation-btn {
         position: absolute;
-        height: 50px;
+        height: @btm-height;
         border: 0;
         width: 70px;
         padding: 15px 10px;
