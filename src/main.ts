@@ -10,7 +10,7 @@ import router from './router'
 Vue.config.productionTip = false;
 
 //@ts-ignore
-window['API_PATH'] = 'http://localhost:8081/';
+window['API_PATH'] = 'http://piano.dev.babyceo.cn';
 
 new Vue({
   router,

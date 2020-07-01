@@ -71,33 +71,23 @@
             searchText: '',
 
             musicxmlList: [
-                /*{id: 1, name: 'An Chloe, K. 524', savePath: '/musicxml/1.xml', lastUpdate: '2020-06-30 10:00:00'},*/
-                {id: 2, name: 'An die ferne Geliebte, Op. 98', savePath: '/musicxml/2.xml', lastUpdate: '2020-06-30 10:00:00'},
-                {id: 3, name: 'Ave Maria D.839', savePath: '/musicxml/3.xml', lastUpdate: '2020-06-30 10:00:00'},
-                {id: 4, name: 'Beethoven_AnDieFerneGeliebte', savePath: '/musicxml/4.xml', lastUpdate: '2020-06-30 10:00:00'},
-                {id: 5, name: 'Das Veilchen, K. 476', savePath: '/musicxml/5.xml', lastUpdate: '2020-06-30 10:00:00'},
-                {id: 6, name: 'Dichterliebe, Op. 48', savePath: '/musicxml/6.xmll', lastUpdate: '2020-06-30 10:00:00'},
-                {id: 7, name: 'MuzioClementi_SonatinaOpus36No1_Part1', savePath: '/musicxml/7.xml', lastUpdate: '2020-06-30 10:00:00'},
-                {id: 8, name: 'MuzioClementi_SonatinaOpus36No1_Part2', savePath: '/musicxml/8.xml', lastUpdate: '2020-06-30 10:00:00'},
-                {id: 9, name: 'MuzioClementi_SonatinaOpus36No3_Part1', savePath: '/musicxml/9.xml', lastUpdate: '2020-06-30 10:00:00'},
-                {id: 10, name: 'MuzioClementi_SonatinaOpus36No3_Part2', savePath: '/musicxml/10.xml', lastUpdate: '2020-06-30 10:00:00'},
-                {id: 11, name: 'ScottJoplin_EliteSyncopations', savePath: '/musicxml/11.xml', lastUpdate: '2020-06-30 10:00:00'},
-                {id: 12, name: 'ScottJoplin_The_Entertainer', savePath: '/musicxml/12.xml', lastUpdate: '2020-06-30 10:00:00'},
-                {id: 13, name: 'Wie Melodien zieht es mir, Op. 105, No. 1', savePath: '/musicxml/13.xml', lastUpdate: '2020-06-30 10:00:00'},
             ],
 
             /*应用功能*/
             sheetLeftViews: false, sheetRightUser: false,
         }),
         mounted() {
-            console.log("OK")
+            //加载
+            this.submitSearch();
         },
         methods: {
             submitSearch(){
-                console.log('searchText >>>' + this.searchText);
+                this.$axios.post(window.API_PATH + "/api/front/musicxml/search", {page: 0, name: this.searchText}).then((resp) => {
+                    this.musicxmlList = resp.data.content;
+                });
             },
             toShowMusic(musicXml){
-                this.$router.push(`/musicxml/view?id=${musicXml.id}`)
+                this.$router.push(`/musicxml/view?url=/static/xml/${musicXml.savePath}`)
             },
 
             showUserPlus() {

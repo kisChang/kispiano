@@ -4,5 +4,8 @@ module.exports = {
     manifestOptions: {
       display: 'fullscreen',
     },
-  }
+  },
+  devServer: {
+    disableHostCheck: true,
+  },
 };

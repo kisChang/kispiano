@@ -1,6 +1,7 @@
 <template>
     <div class="about">
-        <musicxml-view ref="xmlView"></musicxml-view>
+        <musicxml-view v-show="showView" ref="xmlView"></musicxml-view>
+        <div v-show="!showView">{{showMsg}}</div>
     </div>
 </template>
 
@@ -10,14 +11,30 @@
     export default {
         name: "tabbar-viewXml",
         components: {'musicxml-view': MusicXmlDisplay},
+        data(){
+            return {
+                showView: false,
+                showMsg: '正在加载！',
+            }
+        },
         mounted() {
-            const url = `/musicxml/${this.$route.query.id}.xml`;
+            let url;
+            if (this.$route.query.id){
+                url = `/musicxml/${this.$route.query.id}.xml`
+            }else {
+                url = window.API_PATH + this.$route.query.url;
+            }
             console.log('option.url >>>' + url);
 
             const xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = () => {
                 if (xhttp.readyState === 4) {
+                    this.showView = true;
+                    this.showMsg = "加载成功！";
                     this.$refs.xmlView.loadMusicXML(xhttp.responseXML)
+                }else {
+                    this.showView = false;
+                    this.showMsg = "加载失败...";
                 }
             };
             xhttp.open("GET", url, true);
