@@ -22,7 +22,7 @@
             if (this.$route.query.id){
                 url = `/musicxml/${this.$route.query.id}.xml`
             }else {
-                url = window.API_PATH + this.$route.query.url;
+                url = this.$route.query.url;
             }
             console.log('option.url >>>' + url);
 

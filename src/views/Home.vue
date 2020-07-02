@@ -82,7 +82,7 @@
         },
         methods: {
             submitSearch(){
-                this.$axios.post(window.API_PATH + "/api/front/musicxml/search", {page: 0, name: this.searchText}).then((resp) => {
+                this.$axios.post("/api/front/musicxml/search", {page: 0, name: this.searchText}).then((resp) => {
                     this.musicxmlList = resp.data.content;
                 });
             },

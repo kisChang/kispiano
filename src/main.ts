@@ -9,9 +9,6 @@ import router from './router'
 
 Vue.config.productionTip = false;
 
-//@ts-ignore
-window['API_PATH'] = 'http://piano.dev.babyceo.cn';
-
 new Vue({
   router,
   render: h => h(App)
