@@ -3,6 +3,7 @@ module.exports = {
     name: 'Kis Piano',
     manifestOptions: {
       display: 'standalone',
+      themeColor: '#fafafa',
     },
   },
   devServer: {

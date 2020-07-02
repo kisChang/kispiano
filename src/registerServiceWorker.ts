@@ -4,7 +4,7 @@ import {register} from 'register-service-worker'
 
 // 改为在开发环境同样注册
 // if (process.env.NODE_ENV === 'production')
-const version = 'v1.0.0';
+const version = 'v0.0.1';
 
 register(`${process.env.BASE_URL}service-worker.js`, {
     ready(reg) {
