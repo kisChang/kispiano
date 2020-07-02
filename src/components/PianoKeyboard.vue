@@ -10,29 +10,32 @@
     </div>-->
     <div class="piano-wrap">
         <div class="piano-key-wrap">
-            <div class="piano-key wkey" v-for="note in noteWhite" :key="note.name" :data-keyCode="note.name"
-                 @mousedown="clickPianoKey($event, note.name)"></div>
-            <div class="bkey-wrap bkey-wrap1">
-                <div class="piano-key bkey" v-for="note in noteBlack1" :key="note.name" :data-keyCode="note.name"
+            <div class="akey-wrap d-flex">
+                <div class="wkey flex-fill" v-for="note in noteWhite" :key="note.name" :data-keyCode="note.name"
                      @mousedown="clickPianoKey($event, note.name)"></div>
             </div>
-            <div class="bkey-wrap bkey-wrap2">
-                <div class="piano-key bkey" v-for="note in noteBlack2" :key="note.name" :data-keyCode="note.name"
-                     @mousedown="clickPianoKey($event, note.name)"></div>
+            <div class="bkey-wrap d-flex">
+                <div class="bkey-wrap1 flex-fill">
+                    <div class="bkey" v-for="note in noteBlack1" :key="note.name" :data-keyCode="note.name"
+                         @mousedown="clickPianoKey($event, note.name)"></div>
+                </div>
+                <div class="bkey-wrap2 flex-fill">
+                    <div class="bkey" v-for="note in noteBlack2" :key="note.name" :data-keyCode="note.name"
+                         @mousedown="clickPianoKey($event, note.name)"></div>
+                </div>
+                <div class="bkey-wrap3 flex-fill">
+                    <div class="bkey" v-for="note in noteBlack3" :key="note.name" :data-keyCode="note.name"
+                         @mousedown="clickPianoKey($event, note.name)"></div>
+                </div>
+                <div class="bkey-wrap4 flex-fill">
+                    <div class="bkey" v-for="note in noteBlack4" :key="note.name" :data-keyCode="note.name"
+                         @mousedown="clickPianoKey($event, note.name)"></div>
+                </div>
+                <div class="bkey-wrap5 flex-fill">
+                    <div class="bkey" v-for="note in noteBlack5" :key="note.name" :data-keyCode="note.name"
+                         @mousedown="clickPianoKey($event, note.name)"></div>
+                </div>
             </div>
-            <div class="bkey-wrap bkey-wrap3">
-                <div class="piano-key bkey" v-for="note in noteBlack3" :key="note.name" :data-keyCode="note.name"
-                     @mousedown="clickPianoKey($event, note.name)"></div>
-            </div>
-            <div class="bkey-wrap bkey-wrap4">
-                <div class="piano-key bkey" v-for="note in noteBlack4" :key="note.name" :data-keyCode="note.name"
-                     @mousedown="clickPianoKey($event, note.name)"></div>
-            </div>
-            <div class="bkey-wrap bkey-wrap5">
-                <div class="piano-key bkey" v-for="note in noteBlack5" :key="note.name" :data-keyCode="note.name"
-                     @mousedown="clickPianoKey($event, note.name)"></div>
-            </div>
-
         </div>
     </div>
 </template>
@@ -107,14 +110,15 @@
             overflow: hidden;
             position: relative;
 
+            .akey-wrap{
+                height: 150px;
+            }
             .wkey {
                 display: inline-block;
-                width: 2.775%;
                 height: 100%;
                 margin: 0 auto;
                 background: linear-gradient(white 10%, rgb(251, 251, 251) 92%, rgb(220, 220, 220) 93%, white 97%);
                 border: solid 1px @dark;
-                border-radius: 0 0 5px 5px;
                 position: relative;
 
                 &:active {
@@ -127,30 +131,10 @@
             }
 
             .bkey-wrap {
-                width: 20%;
+                width: 98%;
                 height: 0;
                 position: absolute;
                 top: 0;
-            }
-
-            .bkey-wrap1 {
-                left: 18px;
-            }
-
-            .bkey-wrap2 {
-                left: 18.5%;
-            }
-
-            .bkey-wrap3 {
-                left: 38.5%;
-            }
-
-            .bkey-wrap4 {
-                left: 58.7%;
-            }
-
-            .bkey-wrap5 {
-                left: 79%;
             }
 
             .bkey {
@@ -159,7 +143,7 @@
                 height: 100px;
                 background: linear-gradient(#000 10%, rgb(86, 86, 86) 85%, #000 90%);
                 border-radius: 0 0 3px 3px;
-                position: absolute;
+                position: relative;
                 top: 0;
                 overflow: hidden;
 
@@ -177,19 +161,19 @@
             }
 
             .bkey:nth-child(2) {
-                left: 23%;
+                left: 12%;
             }
 
             .bkey:nth-child(3) {
-                left: 52%;
+                left: 30%;
             }
 
             .bkey:nth-child(4) {
-                left: 67%;
+                left: 34%;
             }
 
             .bkey:nth-child(5) {
-                left: 81%;
+                left: 38%;
             }
         }
     }

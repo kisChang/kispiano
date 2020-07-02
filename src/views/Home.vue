@@ -77,6 +77,7 @@
             sheetLeftViews: false, sheetRightUser: false,
         }),
         mounted() {
+            // console.log("OK")
             //加载
             this.submitSearch();
         },
