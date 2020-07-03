@@ -2,7 +2,7 @@
     <div>
         <div class="app-content">
             <div class="input-group input-group-sm mb-1">
-                <form @submit="submitSearch()" style="width: 100%;">
+                <form action="" @submit.prevent="submitSearch()" style="width: 100%;">
                     <input v-model="searchText" type="text" class="form-control" placeholder="请输入关键词">
                 </form>
             </div>
@@ -54,24 +54,40 @@
             <div class="bottom-sheet" v-show="sheetRightUser">
                 <div class="bottom-sheet-hide" @click="sheetRightUser = false"></div>
                 <div class="bottom-sheet-content">
-                    用户个人中心
+                    <b-list-group>
+                        <b-list-group-item @click="showUserProfile()">
+                            个人中心
+                        </b-list-group-item>
+                        <b-list-group-item to="/about">
+                            关于我们
+                        </b-list-group-item>
+                    </b-list-group>
+                    <cusFooter />
                 </div>
             </div>
         </transition>
+
+        <div class="loading-spinner" v-show="loading">
+            <div class="spinner spinner-grow text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
+    import {searchAllByName} from "@/api/musicxml";
+    import Footer from "@/components/base/Footer";
+
     //应用首页
     export default {
         name: 'Home',
-        components: {},
+        components: {cusFooter: Footer},
         data: () => ({
+            loading: true,
             /*数据和检索*/
-            searchText: '',
-
-            musicxmlList: [
-            ],
+            pageNow: 0, searchText: '',
+            musicxmlList: [],
 
             /*应用功能*/
             sheetLeftViews: false, sheetRightUser: false,
@@ -81,11 +97,25 @@
             //加载
             this.submitSearch();
         },
+        beforeDestroy(){
+            console.log("OK")
+        },
         methods: {
+            handleAppUpdate(){
+                console.log("sw.update")
+            },
+            handleAppUnregister(){
+                console.log("sw.unregister")
+            },
+
             submitSearch(){
-                this.$axios.post("/api/front/musicxml/search", {page: 0, name: this.searchText}).then((resp) => {
+                searchAllByName({page: this.pageNow, name: this.searchText}).then((resp) => {
                     this.musicxmlList = resp.data.content;
+                    this.loading = false;
+                }).catch(_reason => {
+                    this.loading = false;
                 });
+                return false;
             },
             toShowMusic(musicXml){
                 this.$router.push(`/musicxml/view?url=/static/xml/${musicXml.savePath}`)
@@ -94,9 +124,33 @@
             showUserPlus() {
                 this.$bvModal.msgBoxOk('开发中，敬请期待！', {centered: true});
             },
+            showUserProfile() {
+                this.$bvModal.msgBoxOk('开发中，敬请期待！', {centered: true});
+            },
         }
     }
 </script>
+
+<style>
+    .loading-spinner{
+        height: 100%;
+        text-align: center;
+        z-index: 99999;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: #ffffff5e;
+    }
+    .loading-spinner .spinner{
+        width: 5rem;
+        height: 5rem;
+        position: absolute;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+</style>
 
 <style scoped lang="less">
     @import url('../assets/style/variable.less');
@@ -141,7 +195,7 @@
 
     .bottom-navigation .bmn-btn-center {
         position: absolute;
-        bottom: 10px;
+        bottom: 15px;
         left: 50%;
         background: #FFF;
         width: 3rem !important;

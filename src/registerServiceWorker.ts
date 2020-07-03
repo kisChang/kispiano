@@ -1,10 +1,12 @@
 /* eslint-disable no-console */
 
 import {register} from 'register-service-worker'
+// @ts-ignore
+import config from '@/../package.json'
 
 // 改为在开发环境同样注册
 // if (process.env.NODE_ENV === 'production')
-const version = 'v0.0.1';
+const version = 'V' + config.version;
 
 register(`${process.env.BASE_URL}service-worker.js`, {
     ready(reg) {
@@ -12,15 +14,19 @@ register(`${process.env.BASE_URL}service-worker.js`, {
             'App is being served from cache by a service worker.\n' +
             'For more details, visit https://goo.gl/AFskqB'
         );
-    },
-    registered(reg) {
-        console.log('Service worker has been registered.')
+        console.log('App.Version>>' + version);
         if (localStorage.getItem('sw_version') !== version) {
             console.error('Service worker need Update')
+            reg.showNotification("提示", {body: 'need Update'}).then()
             reg.update().then(function () {
+                console.error('App Update OK')
+                reg.showNotification("提示", {body: 'Update OK'}).then()
                 localStorage.setItem('sw_version', version)
             });
         }
+    },
+    registered(reg) {
+        console.log('Service worker has been registered.')
     },
     cached() {
         console.log('Content has been cached for offline use.')
