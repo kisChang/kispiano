@@ -43,7 +43,6 @@
 
 <script>
     import Notes, {NotesMp3, NotesCode} from '@/config/Notes';
-    import Tone from 'tone';
 
     export default {
         name: "PianoKeyboard",
@@ -51,11 +50,12 @@
             return {
                 Notes: Notes,
                 synth: null,    //合成器
+                clavinet: null,
 
                 midiIn: null,
                 midiOut: null,
 
-                usingType: false, //播放音频方式
+                usingType: true, //播放音频方式
             };
         },
         computed: {
@@ -81,9 +81,16 @@
             },
         },
         mounted() {
-            // 初始化合成器
-            this.synth = new Tone.Sampler(NotesMp3, {"release" : 1, "baseUrl" : "/piano/"}).toMaster();
-            // this.synth = new Tone.Synth().toMaster()
+            // Tone. js 初始化合成器
+            // this.synth = new Tone.Sampler(NotesMp3, {"release" : 1, "baseUrl" : "/piano/"}).toMaster();
+
+            // Soundfont.js
+            // Soundfont.instrument(new AudioContext(), 'clavinet').then((clavinet)=> {
+            //     this.clavinet = clavinet;
+            //     console.log('this.clavinet >>>' + this.clavinet)
+            // }).catch(error => {
+            //     console.log('this.clavinet >>> error>> ' + error);
+            // });
 
             //初始化MiDi控制
             if (!('requestMIDIAccess' in navigator)) {
@@ -103,8 +110,10 @@
             playNote(notename = 'C4', duration = '2n') {
                 if (this.usingType){//内部发生
                     // 合成器触发音频释放
-                    if (!this.synth) return;
-                    this.synth.triggerAttackRelease(notename, duration);
+                    // if (!this.synth) return;
+                    // this.synth.triggerAttackRelease(notename, duration);
+
+                    this.clavinet.play(notename);
                 }else {
                     //通过midi
                     if (this.midiOut) {
@@ -121,6 +130,10 @@
                     this.addLog("this.midi Out is null");
                 }
             },
+
+            addLog(str){
+                console.log(str);
+            }
         },
     }
 </script>

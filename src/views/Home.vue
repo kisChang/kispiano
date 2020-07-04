@@ -126,7 +126,7 @@
         },
         methods: {
             submitSearch(){
-                musicxmlAllByName({page: this.pageNow, pageSize: 6, name: this.searchText}).then((resp) => {
+                musicxmlAllByName({page: this.pageNow, pageSize: 10, name: this.searchText}).then((resp) => {
                     this.musicxmlList = resp.data.content;
                     this.loading = false;
                 }).catch(_reason => {

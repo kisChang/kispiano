@@ -1,41 +1,90 @@
 <template>
     <div>
-        <musicxml-view ref="xmlView"></musicxml-view>
+        <b-navbar variant="faded" type="light" style="padding: 0;">
+            <b-navbar-brand to="/" style="position: relative;margin: auto;">Kis Piano</b-navbar-brand>
+        </b-navbar>
+
+        <MusicXmlScore v-if="mounted" style="margin-bottom: 110px"
+                @osmdInit="osmdInit" @scoreLoaded="scoreLoaded"
+                :score="selectedScore" :ready="pbEngineReady"/>
+        <div style="position: fixed; bottom: 0;left: 0;right: 0;background: #FFF">
+            <PlaybackControls :playbackEngine="pbEngine" :scoreTitle="scoreTitle" />
+
+            <div style="position: fixed;bottom: 0;right: 0;">
+                <b-btn v-b-modal.modalPlaybackSetting>
+                    <b-icon-egg-fried></b-icon-egg-fried>
+                </b-btn>
+            </div>
+        </div>
+        <b-modal id="modalPlaybackSetting" title="播放设置" centered
+                 static ok-only ok-title="确定">
+            <PlaybackSidebar :playbackEngine="pbEngine" v-if="pbEngineReady" />
+        </b-modal>
     </div>
 </template>
 
 <script>
-    import MusicXmlDisplay from "@/components/MusicXmlDisplay.vue";
+    import PlaybackSidebar from "@/components/osmd/PlaybackSidebar.vue";
+    import PlaybackControls from "@/components/osmd/PlaybackControls.vue";
+    import MusicXmlScore from "@/components/osmd/MusicXmlScore.vue";
+    import PlaybackEngine from "osmd-audio-player";
 
     export default {
-        name: "tabbar-viewXml",
-        components: {'musicxml-view': MusicXmlDisplay},
-        data(){
+        name: "app",
+        components: {
+            MusicXmlScore,
+            PlaybackSidebar,
+            PlaybackControls
+        },
+        data() {
             return {
-                asd: 1
+                pbEngine: new PlaybackEngine(),
+                pbEngineReady: false,
+                selectedScore: null,
+                osmd: null,
+                scoreTitle: "",
+                mounted: false
+            };
+        },
+        computed: {},
+        methods: {
+            osmdInit(osmd) {
+                this.osmd = osmd;
+                if (this.$route.query.id){
+                    this.scoreChanged(`/musicxml/${this.$route.query.id}.xml`);
+                }else {
+                    this.scoreChanged(this.$route.query.url);
+                }
+            },
+            async scoreLoaded() {
+                console.log("Score loaded");
+                if (this.osmd.sheet.title) this.scoreTitle = this.osmd.sheet.title.text;
+                await this.pbEngine.loadScore(this.osmd);
+                console.log("pbEngine ready");
+                this.pbEngineReady = true;
+            },
+            scoreChanged(scoreUrl) {
+                if (this.pbEngine.state === "PLAYING") this.pbEngine.stop();
+                this.selectedScore = scoreUrl;
+                this.pbEngineReady = false;
             }
         },
         mounted() {
-            let url;
-            if (this.$route.query.id){
-                url = `/musicxml/${this.$route.query.id}.xml`
-            }else {
-                url = this.$route.query.url;
-            }
-            console.log('option.url >>>' + url);
-
-            const xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = () => {
-                if (xhttp.readyState === 4) {
-                    this.$refs.xmlView.loadMusicXML(xhttp.responseXML)
-                }
-            };
-            xhttp.open("GET", url, true);
-            xhttp.send();
-        },
-    }
+            setTimeout(() => {
+                // This extra delay before rendering the score component seems to help occasional issues where the
+                // OSMD cursor img element gets detached from the DOM and doesn't show unless
+                // you refresh the page. A less pretty workaround until root cause is determined
+                this.mounted = true;
+            }, 200)
+        }
+    };
 </script>
 
-<style scoped>
-
+<style lang="scss">
+    #app {
+        font-family: "Avenir", Helvetica, Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        color: #2c3e50;
+    }
 </style>
