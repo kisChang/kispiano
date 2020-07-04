@@ -1,24 +1,39 @@
 <template>
     <div>
         <div class="app-content">
-            <div class="input-group input-group-sm mb-1">
+            <div class="input-group input-group-sm">
                 <form action="" @submit.prevent="submitSearch()" style="width: 100%;">
                     <input v-model="searchText" type="text" class="form-control" placeholder="请输入关键词">
                 </form>
             </div>
 
-            <div style="text-align: center;">
-                <div class="card mb-2" v-for="(item) in musicxmlList" :key="item.id" @click="toShowMusic(item)">
-                    <div class="row no-gutters">
-                        <div class="col-4 p-1">
-                            <img src="../assets/logo.png" style="width: 80px;left: 15px;" class="card-img align-middle-pos">
-                        </div>
-                        <div class="col-8">
-                            <div class="card-body text-left p-2">
-                                <h5 class="card-title">{{item.name}}</h5>
-                                <p class="card-text text-right"><small class="text-muted">{{item.lastUpdate}}</small></p>
-                            </div>
-                        </div>
+            <div class="music-card-list">
+                <div class="card-list-title row">
+                    <span class="col-7">钢琴谱列表：</span>
+                    <b-link class="showall col-5 text-right" to="/list/musicxml">查看更多>></b-link>
+                </div>
+                <div class="music-card " v-for="(item) in musicxmlList" :key="item.id" @click="toShowMusic(item)">
+                    <img :src="'/static/pic/' + item.mainPic" class="card-img">
+                    <div class="card-body text-left p-2">
+                        <div class="card-title">{{item.name}}</div>
+                        <p class="card-text text-right"><small class="text-muted">{{item.lastUpdate}}</small></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="music-card-list" style="margin-top: 15px;">
+                <div class="card-list-title row">
+                    <span class="col-7">合集列表：</span>
+                    <b-link class="showall col-5 text-right" to="/list/xmlset">查看更多>></b-link>
+                </div>
+                <div style="overflow-y: auto;padding: 5px 0;">
+                    <div class="music-set-list">
+                        <b-card v-for="(item) in xmlsetList" :key="item.id"
+                                :img-src="'/static/pic/' + item.mainPic"
+                                @click="toRouter('/list/xmlset/' + item.id + '/view')"
+                                img-top class="music-set">
+                            <b-card-text>{{item.name}}</b-card-text>
+                        </b-card>
                     </div>
                 </div>
             </div>
@@ -76,7 +91,7 @@
 </template>
 
 <script>
-    import {searchAllByName} from "@/api/musicxml";
+    import {musicxmlAllByName, xmlSetAllByName} from "@/api/musicxml";
     import Footer from "@/components/base/Footer";
 
     //应用首页
@@ -88,28 +103,30 @@
             /*数据和检索*/
             pageNow: 0, searchText: '',
             musicxmlList: [],
+            xmlsetList: [],
 
             /*应用功能*/
             sheetLeftViews: false, sheetRightUser: false,
         }),
         mounted() {
             // console.log("OK")
-            //加载
+            //加载琴谱列表
             this.submitSearch();
+            //加载合集列表
+            this.loadHotSet();
+
+            //提示
+            // this.$bvToast.toast('提示消息', {
+            //     toaster: 'b-toaster-bottom-center', bodyClass: 'text-center',
+            //     solid: true, appendToast: true, headerClass: 'hide',
+            // });
         },
         beforeDestroy(){
             console.log("OK")
         },
         methods: {
-            handleAppUpdate(){
-                console.log("sw.update")
-            },
-            handleAppUnregister(){
-                console.log("sw.unregister")
-            },
-
             submitSearch(){
-                searchAllByName({page: this.pageNow, name: this.searchText}).then((resp) => {
+                musicxmlAllByName({page: this.pageNow, pageSize: 6, name: this.searchText}).then((resp) => {
                     this.musicxmlList = resp.data.content;
                     this.loading = false;
                 }).catch(_reason => {
@@ -117,6 +134,12 @@
                 });
                 return false;
             },
+            loadHotSet(){
+                xmlSetAllByName({page: 0, name: null}).then((resp) => {
+                    this.xmlsetList = resp.data.content;
+                });
+            },
+
             toShowMusic(musicXml){
                 this.$router.push(`/musicxml/view?url=/static/xml/${musicXml.savePath}`)
             },
@@ -127,11 +150,70 @@
             showUserProfile() {
                 this.$bvModal.msgBoxOk('开发中，敬请期待！', {centered: true});
             },
+
+            toRouter(path){
+                this.$router.push(path);
+            }
         }
     }
 </script>
 
 <style>
+    .music-set-list{
+        display: flex;
+        /*width: 1000px;*/
+    }
+    .music-set-list .music-set{
+        padding: 0 5px;
+        margin: 0 10px;
+    }
+    .music-set-list .music-set img{
+        width: 100px;
+        height: 150px;
+        padding-top: 5px;
+    }
+    .music-set-list .music-set .card-body{
+        padding: 5px;
+        text-align: center;
+    }
+
+    .hide{
+        display: none !important;
+    }
+    .music-card-list {
+        background: #FFF;
+    }
+    .music-card-list .card-list-title{
+        border-bottom: 1px solid #DDD;
+        margin: 5px 0;
+    }
+    .music-card-list .card-list-title .showall{
+        font-size: 0.9rem;
+        margin-top: 2px;
+        color: #b3b3b3;
+    }
+
+    .music-card{
+        position: relative;
+        margin: 5px 0;
+        padding: 5px 5px 10px;
+        background: #FFF;
+        border-bottom: 1px solid #DDD;
+    }
+    .music-card:last-child{
+        border-bottom: none;
+    }
+    .music-card .card-img{
+        width: 80px;
+        height: 80px;
+    }
+    .music-card .card-body{
+        position: absolute;
+        top: 0;
+        left: 85px;
+        right: 0;
+    }
+
     .loading-spinner{
         height: 100%;
         text-align: center;

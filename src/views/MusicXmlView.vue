@@ -1,7 +1,6 @@
 <template>
-    <div class="about">
-        <musicxml-view v-show="showView" ref="xmlView"></musicxml-view>
-        <div v-show="!showView">{{showMsg}}</div>
+    <div>
+        <musicxml-view ref="xmlView"></musicxml-view>
     </div>
 </template>
 
@@ -13,8 +12,7 @@
         components: {'musicxml-view': MusicXmlDisplay},
         data(){
             return {
-                showView: false,
-                showMsg: '正在加载！',
+                asd: 1
             }
         },
         mounted() {
@@ -29,12 +27,7 @@
             const xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = () => {
                 if (xhttp.readyState === 4) {
-                    this.showView = true;
-                    this.showMsg = "加载成功！";
                     this.$refs.xmlView.loadMusicXML(xhttp.responseXML)
-                }else {
-                    this.showView = false;
-                    this.showMsg = "加载失败...";
                 }
             };
             xhttp.open("GET", url, true);
