@@ -15,7 +15,8 @@ const routes: Array<RouteConfig> = [
     {path: '/', name: 'Home', component: Home},
     {path: '/about', name: 'About', component: () => import('../views/About.vue')},
     {path: '/musicxml/view', name: 'MusicXmlView', component: () => import('../views/MusicXmlView.vue')},
-
+    {path: '/list/musicxml', name: 'MusicXmlListView', component: () => import('../views/list/MusicXmlListView.vue')},
+    {path: '/list/xmlset/view', name: 'XmlSetListView', component: () => import('../views/list/XmlSetListView.vue')},
 ];
 
 const router = new VueRouter({

@@ -9,3 +9,6 @@ export const musicxmlAllByName = (params = {}) => {
 export const xmlSetAllByName = (params = {}) => {
   return http().post('/api/front/xmlset/search', params)
 };
+export const xmlSetListById = (params = {}) => {
+  return http().post('/api/front/musicxml/list', params)
+};

@@ -24,13 +24,13 @@
             <div class="music-card-list" style="margin-top: 15px;">
                 <div class="card-list-title row">
                     <span class="col-7">合集列表：</span>
-                    <b-link class="showall col-5 text-right" to="/list/xmlset">查看更多>></b-link>
+<!--                    <b-link class="showall col-5 text-right" to="/list/xmlset">查看更多>></b-link>-->
                 </div>
                 <div style="overflow-y: auto;padding: 5px 0;">
                     <div class="music-set-list">
                         <b-card v-for="(item) in xmlsetList" :key="item.id"
                                 :img-src="'/static/pic/' + item.mainPic"
-                                @click="toRouter('/list/xmlset/' + item.id + '/view')"
+                                @click="toRouter('/list/xmlset/view?id='+item.id)"
                                 img-top class="music-set">
                             <b-card-text>{{item.name}}</b-card-text>
                         </b-card>
@@ -126,7 +126,7 @@
         },
         methods: {
             submitSearch(){
-                musicxmlAllByName({page: this.pageNow, pageSize: 10, name: this.searchText}).then((resp) => {
+                musicxmlAllByName({page: this.pageNow, pageSize: 5, name: this.searchText}).then((resp) => {
                     this.musicxmlList = resp.data.content;
                     this.loading = false;
                 }).catch(_reason => {
@@ -158,7 +158,9 @@
     }
 </script>
 
-<style>
+<style lang="less">
+    /*全局CSS*/
+    @import url('../assets/style/variable.less');
     .music-set-list{
         display: flex;
         /*width: 1000px;*/
@@ -232,10 +234,6 @@
         top: 50%;
         transform: translate(-50%, -50%);
     }
-</style>
-
-<style scoped lang="less">
-    @import url('../assets/style/variable.less');
 
     .align-middle-pos{
         position: absolute;
