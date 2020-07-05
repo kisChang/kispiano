@@ -47,7 +47,7 @@
             submitSearch(){
                 xmlSetListById({page: (this.pageNow - 1), pageSize: 15, name: this.$route.query.id}).then((resp) => {
                     this.musicxmlList = resp.data.content;
-                    this.pageSize = resp.data.totalPages;
+                    this.pageSize = resp.data.totalPages ? resp.data.totalPages : 0;
                     this.loading = false;
                 }).catch(_reason => {
                     this.loading = false;
