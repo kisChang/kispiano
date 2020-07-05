@@ -4,7 +4,7 @@
             <b-navbar-brand to="/" style="position: relative;margin: auto;">Kis Piano</b-navbar-brand>
         </b-navbar>
         <div class="text-center" style="margin-top: 10%;">
-            <img src="../assets/logo.png">
+            <img style="width: 80px;height: 80px;" src="../assets/logo.png">
             <div>V{{version}}</div>
             <div><small>官网：<a href="http://kischang.top/" target="_blank">http://kischang.top/</a></small></div>
             <div><small>开源地址：<a href="https://github.com/kisChang/" target="_blank">https://github.com/kisChang/</a></small></div>

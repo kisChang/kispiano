@@ -30,9 +30,15 @@
         },
         async mounted() {
             this.osmd = new OpenSheetMusicDisplay(this.$refs.scorediv, {
-                followCursor: true, autoResize: false, backend: 'Svg',
-                // backend: "canvas"
+                followCursor: true, autoResize: false,
+                backend: 'svg',
+                // backend: "canvas",
+
+                drawTitle: false, drawSubtitle: false,
             });
+            //// me
+            this.osmd.zoom = this.horizontalScreen ? 0.5 : 0.4;
+            ////
             this.$emit("osmdInit", this.osmd);
             if (this.score) this.loadScore(this.score);
         },
@@ -55,7 +61,6 @@
                     this.horizontalScreen = false;
                 }
                 if (window.orientation == 90 || window.orientation == -90) {
-                    //alert("横屏状态！")
                     this.horizontalScreen = true;
                 }
             }

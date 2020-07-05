@@ -76,6 +76,9 @@
                         <b-list-group-item to="/about">
                             关于我们
                         </b-list-group-item>
+                        <b-list-group-item @click="installPWA()" :disabled="deferredPrompt === false">
+                            添加到主屏幕
+                        </b-list-group-item>
                     </b-list-group>
                     <cusFooter />
                 </div>
@@ -107,7 +110,14 @@
 
             /*应用功能*/
             sheetLeftViews: false, sheetRightUser: false,
+            deferredPrompt: false,
         }),
+        created() {
+            window.addEventListener('beforeinstallprompt', e => {
+                e.preventDefault();
+                this.deferredPrompt = e;
+            });
+        },
         mounted() {
             // console.log("OK")
             //加载琴谱列表
@@ -125,8 +135,14 @@
             console.log("OK")
         },
         methods: {
+            installPWA() {
+                if (this.deferredPrompt) {
+                    this.deferredPrompt.prompt();
+                    this.deferredPrompt = false;
+                }
+            },
             submitSearch(){
-                musicxmlAllByName({page: this.pageNow, pageSize: 5, name: this.searchText}).then((resp) => {
+                musicxmlAllByName({page: this.pageNow, pageSize: 6, name: this.searchText}).then((resp) => {
                     this.musicxmlList = resp.data.content;
                     this.loading = false;
                 }).catch(_reason => {
@@ -198,7 +214,7 @@
     .music-card{
         position: relative;
         margin: 5px 0;
-        padding: 5px 5px 10px;
+        padding: 5px 5px 5px;
         background: #FFF;
         border-bottom: 1px solid #DDD;
     }
@@ -206,13 +222,13 @@
         border-bottom: none;
     }
     .music-card .card-img{
-        width: 80px;
-        height: 80px;
+        width: 60px;
+        height: 60px;
     }
     .music-card .card-body{
         position: absolute;
         top: 0;
-        left: 85px;
+        left: 65px;
         right: 0;
     }
 

@@ -55,6 +55,11 @@
                 }else {
                     this.scoreChanged(this.$route.query.url);
                 }
+                this.pbEngine.on("iteration", this.playerEngineIterationEvent);
+            },
+            playerEngineIterationEvent(noteListArg){
+                //TODO dev code
+                console.log('iteration >>>' )
             },
             async scoreLoaded() {
                 console.log("Score loaded");

@@ -14,26 +14,34 @@
                     <div class="wkey flex-fill" v-for="note in noteWhite" :key="note.name" :data-keyCode="note.name"
                          @mousedown="clickPianoKey($event, note.name)" @mouseup="unClickPianoKey(note.name)"></div>
                 </div>
-                <div class="bkey-wrap d-flex">
-                    <div class="bkey-wrap1 flex-fill">
-                        <div class="bkey" v-for="note in noteBlack1" :key="note.name" :data-keyCode="note.name"
-                             @mousedown="clickPianoKey($event, note.name)" @mouseup="unClickPianoKey(note.name)"></div>
-                    </div>
-                    <div class="bkey-wrap2 flex-fill">
-                        <div class="bkey" v-for="note in noteBlack2" :key="note.name" :data-keyCode="note.name"
-                             @mousedown="clickPianoKey($event, note.name)" @mouseup="unClickPianoKey(note.name)"></div>
-                    </div>
-                    <div class="bkey-wrap3 flex-fill">
-                        <div class="bkey" v-for="note in noteBlack3" :key="note.name" :data-keyCode="note.name"
-                             @mousedown="clickPianoKey($event, note.name)" @mouseup="unClickPianoKey(note.name)"></div>
-                    </div>
-                    <div class="bkey-wrap4 flex-fill">
-                        <div class="bkey" v-for="note in noteBlack4" :key="note.name" :data-keyCode="note.name"
-                             @mousedown="clickPianoKey($event, note.name)" @mouseup="unClickPianoKey(note.name)"></div>
-                    </div>
-                    <div class="bkey-wrap5 flex-fill">
-                        <div class="bkey" v-for="note in noteBlack5" :key="note.name" :data-keyCode="note.name"
-                             @mousedown="clickPianoKey($event, note.name)" @mouseup="unClickPianoKey(note.name)"></div>
+                <div class="bkey-wrap">
+                    <div class="bkey bkey-first" v-for="note in noteBlack0" :key="note.name" :data-keyCode="note.name"
+                         @mousedown="clickPianoKey($event, note.name)" @mouseup="unClickPianoKey(note.name)"></div>
+                    <div class="d-flex">
+                        <div class="flex-fill">
+                            <div class="bkey" v-for="note in noteBlack1" :key="note.name" :data-keyCode="note.name"
+                                 @mousedown="clickPianoKey($event, note.name)" @mouseup="unClickPianoKey(note.name)"></div>
+                        </div>
+                        <div class="flex-fill">
+                            <div class="bkey" v-for="note in noteBlack2" :key="note.name" :data-keyCode="note.name"
+                                 @mousedown="clickPianoKey($event, note.name)" @mouseup="unClickPianoKey(note.name)"></div>
+                        </div>
+                        <div class="flex-fill">
+                            <div class="bkey" v-for="note in noteBlack3" :key="note.name" :data-keyCode="note.name"
+                                 @mousedown="clickPianoKey($event, note.name)" @mouseup="unClickPianoKey(note.name)"></div>
+                        </div>
+                        <div class="flex-fill">
+                            <div class="bkey" v-for="note in noteBlack4" :key="note.name" :data-keyCode="note.name"
+                                 @mousedown="clickPianoKey($event, note.name)" @mouseup="unClickPianoKey(note.name)"></div>
+                        </div>
+                        <div class="flex-fill">
+                            <div class="bkey" v-for="note in noteBlack5" :key="note.name" :data-keyCode="note.name"
+                                 @mousedown="clickPianoKey($event, note.name)" @mouseup="unClickPianoKey(note.name)"></div>
+                        </div>
+                        <div class="flex-fill">
+                            <div class="bkey" v-for="note in noteBlack6" :key="note.name" :data-keyCode="note.name"
+                                 @mousedown="clickPianoKey($event, note.name)" @mouseup="unClickPianoKey(note.name)"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -42,7 +50,8 @@
 </template>
 
 <script>
-    import Notes, {NotesMp3, NotesCode} from '@/config/Notes';
+    import Notes, {NotesCode} from '@/config/Notes';
+    import Soundfont from "soundfont-player";
 
     export default {
         name: "PianoKeyboard",
@@ -64,33 +73,38 @@
                     return n.type === true
                 });
             },
+            noteBlack0: function () {
+                return this.Notes.filter(note => { return note.type === false && note.id >= 21 && note.id <= 23 });
+            },
             noteBlack1: function () {
-                return this.Notes.filter(note => { return note.type === false && note.id >= 36 && note.id <= 40 });
+                return this.Notes.filter(note => { return note.type === false && note.id >= 23 && note.id <= 35 });
             },
             noteBlack2: function () {
-                return this.Notes.filter(note => { return note.type === false && note.id >= 41 && note.id <= 45 });
+                return this.Notes.filter(note => { return note.type === false && note.id >= 36 && note.id <= 47 });
             },
             noteBlack3: function () {
-                return this.Notes.filter(note => { return note.type === false && note.id >= 46 && note.id <= 50 });
+                return this.Notes.filter(note => { return note.type === false && note.id >= 48 && note.id <= 59 });
             },
             noteBlack4: function () {
-                return this.Notes.filter(note => { return note.type === false && note.id >= 51 && note.id <= 55 });
+                return this.Notes.filter(note => { return note.type === false && note.id >= 60 && note.id <= 71 });
             },
             noteBlack5: function () {
-                return this.Notes.filter(note => { return note.type === false && note.id >= 56 && note.id <= 60 });
+                return this.Notes.filter(note => { return note.type === false && note.id >= 72 && note.id <= 83 });
+            },
+            noteBlack6: function () {
+                return this.Notes.filter(note => { return note.type === false && note.id >= 84 && note.id <= 108 });
             },
         },
         mounted() {
             // Tone. js 初始化合成器
             // this.synth = new Tone.Sampler(NotesMp3, {"release" : 1, "baseUrl" : "/piano/"}).toMaster();
 
-            // Soundfont.js
-            // Soundfont.instrument(new AudioContext(), 'clavinet').then((clavinet)=> {
-            //     this.clavinet = clavinet;
-            //     console.log('this.clavinet >>>' + this.clavinet)
-            // }).catch(error => {
-            //     console.log('this.clavinet >>> error>> ' + error);
-            // });
+            Soundfont.instrument(new AudioContext(), 'acoustic_grand_piano').then((clavinet)=> {
+                this.clavinet = clavinet;
+                console.log('this.clavinet >>>' + this.clavinet)
+            }).catch(error => {
+                console.log('this.clavinet >>> error>> ' + error);
+            });
 
             //初始化MiDi控制
             if (!('requestMIDIAccess' in navigator)) {
@@ -174,10 +188,29 @@
             }
 
             .bkey-wrap {
-                width: 98%;
+                width: 100%;
                 height: 0;
                 position: absolute;
                 top: 0;
+                padding-left: 0;
+                padding-right: 24px;
+                /*DEV code*/
+                height: 10px;
+                background: #c50000;
+
+                .d-flex{
+                    margin-left: 3%;
+                    width: 97%;
+                    position: absolute;
+                    top: 0;
+                }
+            }
+
+            .bkey-first{
+                position: absolute;
+                display: block !important;
+                width: 2% !important;
+                left: 1% !important;
             }
 
             .bkey {
@@ -200,23 +233,23 @@
             }
 
             .bkey:nth-child(1) {
-                left: 9%;
+                left: 11%;
             }
 
             .bkey:nth-child(2) {
-                left: 12%;
+                left: 13%;
             }
 
             .bkey:nth-child(3) {
-                left: 30%;
+                left: 26%;
             }
 
             .bkey:nth-child(4) {
-                left: 34%;
+                left: 28%;
             }
 
             .bkey:nth-child(5) {
-                left: 38%;
+                left: 30%;
             }
         }
     }

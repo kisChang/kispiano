@@ -1,9 +1,15 @@
 module.exports = {
   pwa: {
     name: 'Kis Piano',
+    themeColor: '#fafafa',
+    msTileColor: '#fafafa',
+    appleMobileWebAppCapable: 'yes',
+    appleMobileWebAppStatusBarStyle: 'black',
     manifestOptions: {
       display: 'standalone',
-      themeColor: '#fafafa',
+    },
+    workboxOptions: {
+      skipWaiting: true,
     },
   },
   devServer: {
