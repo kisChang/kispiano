@@ -79,6 +79,9 @@
                         <b-list-group-item @click="installPWA()" :disabled="deferredPrompt === false">
                             添加到主屏幕
                         </b-list-group-item>
+                        <b-list-group-item @click="upgradeNow()">
+                            立即更新
+                        </b-list-group-item>
                     </b-list-group>
                     <cusFooter />
                 </div>
@@ -129,16 +132,30 @@
             //应用初始化
             MidiUsb.init();
 
-            //提示
-            // this.$bvToast.toast('提示消息', {
-            //     toaster: 'b-toaster-bottom-center', bodyClass: 'text-center',
-            //     solid: true, appendToast: true, headerClass: 'hide',
-            // });
         },
         beforeDestroy(){
             console.log("OK")
         },
         methods: {
+            toast(msg){
+                //提示
+                this.$bvToast.toast(msg, {
+                    toaster: 'b-toaster-bottom-center', bodyClass: 'text-center',
+                    solid: true, appendToast: true, headerClass: 'hide',
+                });
+            },
+            upgradeNow(){
+                this.sheetRightUser = false;
+                navigator.serviceWorker.getRegistration()
+                    .then(reg => {
+                        reg.update().then(() => {
+                            this.toast('update ok');
+                        }).catch(reason => {
+                            this.toast('update fail: '+ reason);
+                        })
+                    })
+                    .catch(x => console.error('update failed', x))
+            },
             installPWA() {
                 if (this.deferredPrompt) {
                     this.deferredPrompt.prompt();
