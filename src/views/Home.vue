@@ -96,6 +96,7 @@
 <script>
     import {musicxmlAllByName, xmlSetAllByName} from "@/api/musicxml";
     import Footer from "@/components/base/Footer";
+    import {MidiUsb} from "@/utils/MidiUsb";
 
     //应用首页
     export default {
@@ -124,6 +125,9 @@
             this.submitSearch();
             //加载合集列表
             this.loadHotSet();
+
+            //应用初始化
+            MidiUsb.init();
 
             //提示
             // this.$bvToast.toast('提示消息', {

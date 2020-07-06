@@ -15,33 +15,37 @@
                          @mousedown="clickPianoKey($event, note.name)" @mouseup="unClickPianoKey(note.name)"></div>
                 </div>
                 <div class="bkey-wrap">
-                    <div class="bkey bkey-first" v-for="note in noteBlack0" :key="note.name" :data-keyCode="note.name"
-                         @mousedown="clickPianoKey($event, note.name)" @mouseup="unClickPianoKey(note.name)"></div>
-                    <div class="d-flex">
-                        <div class="flex-fill">
-                            <div class="bkey" v-for="note in noteBlack1" :key="note.name" :data-keyCode="note.name"
-                                 @mousedown="clickPianoKey($event, note.name)" @mouseup="unClickPianoKey(note.name)"></div>
-                        </div>
-                        <div class="flex-fill">
-                            <div class="bkey" v-for="note in noteBlack2" :key="note.name" :data-keyCode="note.name"
-                                 @mousedown="clickPianoKey($event, note.name)" @mouseup="unClickPianoKey(note.name)"></div>
-                        </div>
-                        <div class="flex-fill">
-                            <div class="bkey" v-for="note in noteBlack3" :key="note.name" :data-keyCode="note.name"
-                                 @mousedown="clickPianoKey($event, note.name)" @mouseup="unClickPianoKey(note.name)"></div>
-                        </div>
-                        <div class="flex-fill">
-                            <div class="bkey" v-for="note in noteBlack4" :key="note.name" :data-keyCode="note.name"
-                                 @mousedown="clickPianoKey($event, note.name)" @mouseup="unClickPianoKey(note.name)"></div>
-                        </div>
-                        <div class="flex-fill">
-                            <div class="bkey" v-for="note in noteBlack5" :key="note.name" :data-keyCode="note.name"
-                                 @mousedown="clickPianoKey($event, note.name)" @mouseup="unClickPianoKey(note.name)"></div>
-                        </div>
-                        <div class="flex-fill">
-                            <div class="bkey" v-for="note in noteBlack6" :key="note.name" :data-keyCode="note.name"
-                                 @mousedown="clickPianoKey($event, note.name)" @mouseup="unClickPianoKey(note.name)"></div>
-                        </div>
+                    <div class="bkey-fill-first">
+                        <div class="bkey bkey-first" v-for="note in noteBlack0" :key="note.name" :data-keyCode="note.name"
+                             @mousedown="clickPianoKey($event, note.name)" @mouseup="unClickPianoKey(note.name)"></div>
+                    </div>
+                    <div class="bkey-fill">
+                        <div class="bkey" v-for="note in noteBlack1" :key="note.name" :data-keyCode="note.name"
+                             @mousedown="clickPianoKey($event, note.name)" @mouseup="unClickPianoKey(note.name)"></div>
+                    </div>
+                    <div class="bkey-fill">
+                        <div class="bkey" v-for="note in noteBlack2" :key="note.name" :data-keyCode="note.name"
+                             @mousedown="clickPianoKey($event, note.name)" @mouseup="unClickPianoKey(note.name)"></div>
+                    </div>
+                    <div class="bkey-fill">
+                        <div class="bkey" v-for="note in noteBlack3" :key="note.name" :data-keyCode="note.name"
+                             @mousedown="clickPianoKey($event, note.name)" @mouseup="unClickPianoKey(note.name)"></div>
+                    </div>
+                    <div class="bkey-fill">
+                        <div class="bkey" v-for="note in noteBlack4" :key="note.name" :data-keyCode="note.name"
+                             @mousedown="clickPianoKey($event, note.name)" @mouseup="unClickPianoKey(note.name)"></div>
+                    </div>
+                    <div class="bkey-fill">
+                        <div class="bkey" v-for="note in noteBlack5" :key="note.name" :data-keyCode="note.name"
+                             @mousedown="clickPianoKey($event, note.name)" @mouseup="unClickPianoKey(note.name)"></div>
+                    </div>
+                    <div class="bkey-fill">
+                        <div class="bkey" v-for="note in noteBlack6" :key="note.name" :data-keyCode="note.name"
+                             @mousedown="clickPianoKey($event, note.name)" @mouseup="unClickPianoKey(note.name)"></div>
+                    </div>
+                    <div class="bkey-fill">
+                        <div class="bkey" v-for="note in noteBlack7" :key="note.name" :data-keyCode="note.name"
+                             @mousedown="clickPianoKey($event, note.name)" @mouseup="unClickPianoKey(note.name)"></div>
                     </div>
                 </div>
             </div>
@@ -52,6 +56,7 @@
 <script>
     import Notes, {NotesCode} from '@/config/Notes';
     import Soundfont from "soundfont-player";
+    import {MidiUsb} from "@/utils/MidiUsb";
 
     export default {
         name: "PianoKeyboard",
@@ -60,9 +65,6 @@
                 Notes: Notes,
                 synth: null,    //合成器
                 clavinet: null,
-
-                midiIn: null,
-                midiOut: null,
 
                 usingType: true, //播放音频方式
             };
@@ -92,7 +94,10 @@
                 return this.Notes.filter(note => { return note.type === false && note.id >= 72 && note.id <= 83 });
             },
             noteBlack6: function () {
-                return this.Notes.filter(note => { return note.type === false && note.id >= 84 && note.id <= 108 });
+                return this.Notes.filter(note => { return note.type === false && note.id >= 84 && note.id <= 95 });
+            },
+            noteBlack7: function () {
+                return this.Notes.filter(note => { return note.type === false && note.id >= 96 && note.id <= 108 });
             },
         },
         mounted() {
@@ -107,47 +112,26 @@
             });
 
             //初始化MiDi控制
-            if (!('requestMIDIAccess' in navigator)) {
-                this.$bvModal.msgBoxOk('暂不支持此设备！', {centered: true});
-            } else {
-                //@ts-ignore
-                navigator.requestMIDIAccess().then((midi) => {
-                    this.midiIn = midi.inputs.values().next().value;
-                    this.midiOut = midi.outputs.values().next().value;
-                });
-            }
+            MidiUsb.init().then().catch(reason => {
+                this.$bvModal.msgBoxOk(reason, {centered: true});
+            });
         },
         methods: {
             clickPianoKey(event, keyCode) {
-                this.playNote(keyCode, '2n');
+                this.playNote(keyCode);
             },
-            playNote(notename = 'C4', duration = '2n') {
-                if (this.usingType){//内部发生
+            playNote(notename = 'C4') {
+                if (this.usingType){//内部发声
                     // 合成器触发音频释放
-                    // if (!this.synth) return;
-                    // this.synth.triggerAttackRelease(notename, duration);
-
                     this.clavinet.play(notename);
                 }else {
                     //通过midi
-                    if (this.midiOut) {
-                        this.midiOut.send([0x90, NotesCode[notename], 0x7f]);
-                    } else {
-                        this.addLog("this.midi Out is null");
-                    }
+                    MidiUsb.midiOutOn(NotesCode[notename], 0x7f);
                 }
             },
             unClickPianoKey(notename) {
-                if (this.midiOut) {
-                    this.midiOut.send([0x80, NotesCode[notename], 0x7f]);
-                } else {
-                    this.addLog("this.midi Out is null");
-                }
+                MidiUsb.midiOutOff(NotesCode[notename], 0x7f);
             },
-
-            addLog(str){
-                console.log(str);
-            }
         },
     }
 </script>
@@ -192,30 +176,31 @@
                 height: 0;
                 position: absolute;
                 top: 0;
-                padding-left: 0;
-                padding-right: 24px;
-                /*DEV code*/
-                height: 10px;
-                background: #c50000;
+                display: block;
 
-                .d-flex{
-                    margin-left: 3%;
-                    width: 97%;
-                    position: absolute;
-                    top: 0;
+                .bkey-fill-first{
+                    float: left;
+                    width: 3.7%;
+                }
+                .bkey-fill{
+                    float: left;
+                    width: 13.5%;
+                    border: 0;
+                    margin: 0;
+                    padding: 0;
                 }
             }
 
             .bkey-first{
                 position: absolute;
                 display: block !important;
-                width: 2% !important;
-                left: 1% !important;
+                width: 50% !important;
+                left: 30% !important;
             }
 
             .bkey {
                 display: inline-block;
-                width: 10%;
+                width: 12.5%;
                 height: 100px;
                 background: linear-gradient(#000 10%, rgb(86, 86, 86) 85%, #000 90%);
                 border-radius: 0 0 3px 3px;
@@ -233,23 +218,23 @@
             }
 
             .bkey:nth-child(1) {
-                left: 11%;
+                left: 8%;
             }
 
             .bkey:nth-child(2) {
-                left: 13%;
+                left: 10%;
             }
 
             .bkey:nth-child(3) {
-                left: 26%;
+                left: 25%;
             }
 
             .bkey:nth-child(4) {
-                left: 28%;
+                left: 27%;
             }
 
             .bkey:nth-child(5) {
-                left: 30%;
+                left: 29.5%;
             }
         }
     }

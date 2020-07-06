@@ -18,7 +18,8 @@
         </div>
         <b-modal id="modalPlaybackSetting" title="播放设置" centered
                  static ok-only ok-title="确定">
-            <PlaybackSidebar :playbackEngine="pbEngine" v-if="pbEngineReady" />
+            <PlaybackSidebar :playbackEngine="pbEngine" :playType="playType"
+                             v-if="pbEngineReady" @setPlayType="setPlayType"/>
         </b-modal>
     </div>
 </template>
@@ -28,6 +29,7 @@
     import PlaybackControls from "@/components/osmd/PlaybackControls.vue";
     import MusicXmlScore from "@/components/osmd/MusicXmlScore.vue";
     import PlaybackEngine from "osmd-audio-player";
+    import {MidiUsb} from "../utils/MidiUsb";
 
     export default {
         name: "app",
@@ -43,7 +45,9 @@
                 selectedScore: null,
                 osmd: null,
                 scoreTitle: "",
-                mounted: false
+                mounted: false,
+
+                playType: true,
             };
         },
         computed: {},
@@ -58,8 +62,16 @@
                 this.pbEngine.on("iteration", this.playerEngineIterationEvent);
             },
             playerEngineIterationEvent(noteListArg){
-                //TODO dev code
-                console.log('iteration >>>' )
+                // window['note'] = noteListArg;
+
+                noteListArg.forEach(x => {
+                    if (!this.playType){
+                        MidiUsb.midiOutOn(x.halfTone, 0x7F);
+                        setTimeout(() => {
+                            MidiUsb.midiOutOff(x.halfTone, 0x7F);
+                        }, 200)
+                    }
+                })
             },
             async scoreLoaded() {
                 console.log("Score loaded");
@@ -72,7 +84,11 @@
                 if (this.pbEngine.state === "PLAYING") this.pbEngine.stop();
                 this.selectedScore = scoreUrl;
                 this.pbEngineReady = false;
-            }
+            },
+
+            setPlayType(playType){
+                this.playType = playType;
+            },
         },
         mounted() {
             setTimeout(() => {
@@ -80,7 +96,10 @@
                 // OSMD cursor img element gets detached from the DOM and doesn't show unless
                 // you refresh the page. A less pretty workaround until root cause is determined
                 this.mounted = true;
-            }, 200)
+            }, 200);
+
+            ////
+            MidiUsb.init().then();
         }
     };
 </script>
