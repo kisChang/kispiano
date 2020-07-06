@@ -3,7 +3,7 @@
         <div class="sidebar-content">
             <div v-if="playbackEngine.ready">
                 <div class="text-center">
-                    <b-form-group label="Inline switch style checkboxes">
+                    <b-form-group label="播放模式">
                         <b-form-checkbox v-model="usingType" class="switch" switch>
                             Using ({{usingType ? 'App Internal' : 'MiDi Keyboard'}})
                         </b-form-checkbox>
@@ -53,7 +53,7 @@
             const tmp = this.$props.playType;
             return {
                 usingType: tmp,
-                midiName: '',
+                midiName: '未接入',
 
                 volumeMap : {},
             };

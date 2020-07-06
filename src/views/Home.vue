@@ -80,7 +80,7 @@
                             添加到主屏幕
                         </b-list-group-item>
                         <b-list-group-item @click="upgradeNow()">
-                            立即更新
+                            立即检查并更新: V{{appVersion}}
                         </b-list-group-item>
                     </b-list-group>
                     <cusFooter />
@@ -100,12 +100,16 @@
     import {musicxmlAllByName, xmlSetAllByName} from "@/api/musicxml";
     import Footer from "@/components/base/Footer";
     import {MidiUsb} from "@/utils/MidiUsb";
+    // @ts-ignore
+    import config from '@/../package.json'
 
     //应用首页
     export default {
         name: 'Home',
         components: {cusFooter: Footer},
         data: () => ({
+            appVersion: config.version,
+
             loading: true,
             /*数据和检索*/
             pageNow: 0, searchText: '',
