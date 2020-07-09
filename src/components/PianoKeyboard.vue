@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="text-center">
-            <b-form-group label="Inline switch style checkboxes">
+            <b-form-group label="请选择播放输出设备">
                 <b-form-checkbox v-model="usingType" class="switch" switch>
                     Using ({{usingType ? 'App Internal' : 'MiDi Keyboard'}})
                 </b-form-checkbox>

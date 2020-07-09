@@ -54,7 +54,7 @@
         },
         methods: {
             submitSearch(){
-                musicxmlAllByName({page: (this.pageNow - 1), pageSize: 6, name: this.searchText}).then((resp) => {
+                musicxmlAllByName({page: (this.pageNow - 1), pageSize: 10, name: this.searchText}).then((resp) => {
                     this.musicxmlList = resp.data.content;
                     this.pageSize = resp.data.totalPages ? resp.data.totalPages : 0;
                     this.loading = false;

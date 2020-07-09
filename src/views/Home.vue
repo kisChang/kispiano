@@ -24,7 +24,6 @@
             <div class="music-card-list" style="margin-top: 15px;">
                 <div class="card-list-title row">
                     <span class="col-7">合集列表：</span>
-<!--                    <b-link class="showall col-5 text-right" to="/list/xmlset">查看更多>></b-link>-->
                 </div>
                 <div style="overflow-y: auto;padding: 5px 0;">
                     <div class="music-set-list">
@@ -209,6 +208,8 @@
     .music-set-list .music-set{
         padding: 0 5px;
         margin: 0 10px;
+        width: auto;
+        min-width: 110px;
     }
     .music-set-list .music-set img{
         width: 100px;
