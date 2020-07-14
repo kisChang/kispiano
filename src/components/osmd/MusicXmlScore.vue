@@ -38,10 +38,9 @@
                 this.dbStore = value.objectStore('cache_xml');
             });
             //加载osmd
+            this.checkHorizontalScreen();
             this.osmd = new OpenSheetMusicDisplay(this.$refs.scorediv, {
-                followCursor: true, autoResize: false,
-                backend: 'svg',
-                // backend: "canvas",
+                backend: 'svg', followCursor: true, autoResize: false,
                 drawTitle: false, drawSubtitle: false,
             });
             //// me
@@ -79,7 +78,7 @@
                     // 缓存的是base64
                     cacheData = Buffer.from(cacheData, 'base64');
                     // 解密
-                    cacheData = aesdb.decrypt(cacheData, aesdb.aes_key);
+                    cacheData = aesdb.decrypt(cacheData);
                 } else { // 未缓存
                     //1. 下载数据
                     const urlRv = await axios.get(scoreUrl);
