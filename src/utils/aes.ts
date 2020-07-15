@@ -62,7 +62,7 @@ export default class Aes {
         let iv = newIv || Aes.IV;
         if (Aes.cipherMode === Aes.ECB) iv = Aes.NULL_IV;
         const cipher = crypto.createCipheriv(Aes.algorithm, key, iv);
-        cipher.setAutoPadding(true);
+        //cipher.setAutoPadding(true);
         return Buffer.concat([cipher.update(buff), cipher.final()]);
     }
 
@@ -78,7 +78,7 @@ export default class Aes {
         let iv = newIv || Aes.IV;
         if (Aes.cipherMode === Aes.ECB) iv = Aes.NULL_IV;
         const decipher = crypto.createDecipheriv(Aes.algorithm, key, iv);
-        decipher.setAutoPadding(true);
+        decipher.setAutoPadding(false);
         return Buffer.concat([decipher.update(buff), decipher.final()]);
     }
 
