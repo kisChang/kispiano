@@ -12,7 +12,7 @@
 <script>
     import axios from "axios";
     import {OpenSheetMusicDisplay} from "opensheetmusicdisplay";
-    import {aesdb} from "../../utils/aesdb";
+    import Aesdb from "../../utils/aesdb";
     import zlib from 'zlib';
 
     export default {
@@ -34,7 +34,7 @@
         },
         async mounted() {
             //加载缓存
-            aesdb.getTransaction().then(value => {
+            Aesdb.getTransaction().then(value => {
                 this.dbStore = value.objectStore('cache_xml');
             });
             //加载osmd
@@ -78,7 +78,7 @@
                     // 缓存的是base64
                     cacheData = Buffer.from(cacheData, 'base64');
                     // 解密
-                    cacheData = aesdb.decrypt(cacheData);
+                    cacheData = Aesdb.decrypt(cacheData);
                 } else { // 未缓存
                     //1. 下载数据
                     const urlRv = await axios.get(scoreUrl);

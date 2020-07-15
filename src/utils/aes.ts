@@ -1,37 +1,38 @@
-// @ts-ignore
 import crypto from 'crypto';
 
-export module aes {
-    export const CBC = 'cbc';
-    export const ECB = 'ecb';
+/**
+ * AES 加密、解密工具类
+ */
+export default class Aes {
+    public static CBC = 'cbc';
+    public static ECB = 'ecb';
 
-    // @ts-ignore
-    export const NULL_IV = Buffer.from([]);
-    // @ts-ignore
-    export const IV = Buffer.from([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+    public static NULL_IV = Buffer.from([]);
+    public static IV = Buffer.from([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
 
-    export let cipherMode = aes.ECB;
-    export let keySize = 128;
-    export let algorithm = 'aes-128-ecb';
+    //默认加密
+    public static cipherMode = Aes.ECB;
+    public static keySize = 128;
+    public static algorithm = 'aes-128-ecb';
 
-    export function setAlgorithm() {
-        aes.algorithm = 'aes-' + aes.keySize + '-' + aes.cipherMode;
+    public static setAlgorithm() {
+        Aes.algorithm = 'aes-' + Aes.keySize + '-' + Aes.cipherMode;
     }
 
-    export function setCipherMode(mode: string) {
-        if (mode !== aes.CBC && mode !== aes.ECB) {
+    public static setCipherMode(mode: string) {
+        if (mode !== Aes.CBC && mode !== Aes.ECB) {
             throw ('AES.setCipherMode error: ' + mode);
         }
-        aes.cipherMode = mode;
-        aes.setAlgorithm();
+        Aes.cipherMode = mode;
+        Aes.setAlgorithm();
     }
 
-    export function setKeySize(size: number) {
+    public static setKeySize(size: number) {
         if (size !== 128 && size !== 256) {
             throw ('AES.setKeySize error: ' + size);
         }
-        aes.keySize = size;
-        aes.setAlgorithm();
+        Aes.keySize = size;
+        Aes.setAlgorithm();
         // console.log('setKeySize:%j',keySize);
     }
 
@@ -40,13 +41,12 @@ export module aes {
      * @param  {Buffer} key
      * @return {}
      */
-    // @ts-ignore
-    export function checkKey(key: Buffer): void {
+    public static checkKey(key: Buffer): void {
         if (!key) {
             throw 'AES.checkKey error: key is null ';
         }
-        if (key.length !== (aes.keySize / 8)) {
-            throw 'AES.checkKey error: key length is not ' + (aes.keySize / 8) + ': ' + key.length;
+        if (key.length !== (Aes.keySize / 8)) {
+            throw 'AES.checkKey error: key length is not ' + (Aes.keySize / 8) + ': ' + key.length;
         }
     }
 
@@ -57,17 +57,13 @@ export module aes {
      * @param  {Buffer} [newIv]   default is [0,0...0]
      * @return {encripted Buffer}
      */
-    // @ts-ignore
-    export function encBytes(buff: Buffer, key: Buffer, newIv?: Buffer): Buffer {
-        aes.checkKey(key);
-        let iv = newIv || aes.IV;
-        if (aes.cipherMode === aes.ECB) iv = aes.NULL_IV;
-        const cipher = crypto.createCipheriv(aes.algorithm, key, iv);
+    public static encBytes(buff: Buffer, key: Buffer, newIv?: Buffer): Buffer {
+        Aes.checkKey(key);
+        let iv = newIv || Aes.IV;
+        if (Aes.cipherMode === Aes.ECB) iv = Aes.NULL_IV;
+        const cipher = crypto.createCipheriv(Aes.algorithm, key, iv);
         cipher.setAutoPadding(true);
-        // @ts-ignore
-        const re = Buffer.concat([cipher.update(buff), cipher.final()]);
-        // console.log('enc re:%s,len:%d', printBuf(re), re.length);
-        return re;
+        return Buffer.concat([cipher.update(buff), cipher.final()]);
     }
 
     /**
@@ -77,16 +73,13 @@ export module aes {
      * @param  {Buffer} [newIv] default is [0,0...0]
      * @return {encripted Buffer}
      */
-    // @ts-ignore
-    export function decBytes(buff: Buffer, key: Buffer, newIv?: Buffer): Buffer {
-        aes.checkKey(key);
-        let iv = newIv || aes.IV;
-        if (aes.cipherMode === aes.ECB) iv = aes.NULL_IV;
-        const decipher = crypto.createDecipheriv(aes.algorithm, key, iv);
+    public static decBytes(buff: Buffer, key: Buffer, newIv?: Buffer): Buffer {
+        Aes.checkKey(key);
+        let iv = newIv || Aes.IV;
+        if (Aes.cipherMode === Aes.ECB) iv = Aes.NULL_IV;
+        const decipher = crypto.createDecipheriv(Aes.algorithm, key, iv);
         decipher.setAutoPadding(true);
-        // @ts-ignore
-        const out = Buffer.concat([decipher.update(buff), decipher.final()]);
-        return out;
+        return Buffer.concat([decipher.update(buff), decipher.final()]);
     }
 
 }

@@ -1,4 +1,4 @@
-import {aes} from "@/utils/aes";
+import Aes from "@/utils/aes";
 
 describe('cryptoCode', () => {
 
@@ -16,29 +16,29 @@ describe('cryptoCode', () => {
         let buffer = Buffer.from(str, "utf8");
 
         //aes-ecb-128 buffer
-        let buffer_encrypt = aes.encBytes(buffer, key);
-        let crypto_buffer = aes.decBytes(buffer_encrypt, key);
+        let buffer_encrypt = Aes.encBytes(buffer, key);
+        let crypto_buffer = Aes.decBytes(buffer_encrypt, key);
         expect(crypto_buffer.toString()).toEqual(str);
 
         //aes-cbc-128 buffer
-        aes.setCipherMode(aes.CBC);
-        buffer_encrypt = aes.encBytes(buffer, key, iv);
-        crypto_buffer = aes.decBytes(buffer_encrypt, key, iv);
+        Aes.setCipherMode(Aes.CBC);
+        buffer_encrypt = Aes.encBytes(buffer, key, iv);
+        crypto_buffer = Aes.decBytes(buffer_encrypt, key, iv);
         expect(crypto_buffer.toString()).toEqual(str);
 
         //aes-ecb-256 buffer
-        aes.setKeySize(256);
-        aes.setCipherMode(aes.ECB);
-        buffer_encrypt = aes.encBytes(buffer, key256);
-        crypto_buffer = aes.decBytes(buffer_encrypt, key256);
+        Aes.setKeySize(256);
+        Aes.setCipherMode(Aes.ECB);
+        buffer_encrypt = Aes.encBytes(buffer, key256);
+        crypto_buffer = Aes.decBytes(buffer_encrypt, key256);
         expect(crypto_buffer.toString()).toEqual(str);
 
 
         //aes-cbc-256 buffer
-        aes.setKeySize(256);
-        aes.setCipherMode(aes.CBC);
-        buffer_encrypt = aes.encBytes(buffer, key256, iv);
-        crypto_buffer = aes.decBytes(buffer_encrypt, key256, iv);
+        Aes.setKeySize(256);
+        Aes.setCipherMode(Aes.CBC);
+        buffer_encrypt = Aes.encBytes(buffer, key256, iv);
+        crypto_buffer = Aes.decBytes(buffer_encrypt, key256, iv);
         expect(crypto_buffer.toString()).toEqual(str);
 
     });
