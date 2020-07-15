@@ -18,7 +18,9 @@
     export default {
         props: ["score", "ready"],
         data() {
+            const datetime = new Date().getTime();
             return {
+                datetime: datetime,
                 osmd: null,
                 scoreLoading: false,
                 horizontalScreen: false,
@@ -92,7 +94,7 @@
                     cacheData = cacheData.toString('utf-8');
                 } else { // 未缓存
                     //1. 下载数据
-                    const urlRv = await axios.get(scoreUrl);
+                    const urlRv = await axios.get(scoreUrl + `?date=${this.datetime}`);
                     //2. 解压
                     const unGzData = zlib.gunzipSync(Buffer.from(urlRv.data, 'base64'));
                     //3. 存入本地缓存库(按base64编码存储)
