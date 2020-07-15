@@ -49,7 +49,7 @@ export default class Aesdb {
                     const db = event.target.result;
                     if (!db.objectStoreNames.contains('person')) {
                         const objectStore = db.createObjectStore('cache_xml', {
-                            keyPath: 'urlPath',
+                            keyPath: 'id',
                             autoIncrement: true
                         });
                         objectStore.createIndex("urlPath", "urlPath", {
@@ -75,6 +75,16 @@ export default class Aesdb {
         return new Promise<IDBTransaction>((resolve, reject) => {
             Aesdb.getDb().then(db => {
                 resolve(db.transaction(['cache_xml'], 'readwrite'));
+            }).catch(reason => {
+                reject(reason);
+            })
+        })
+    }
+
+    public static getObjectStore(name: string): Promise<IDBObjectStore> {
+        return new Promise<IDBObjectStore>((resolve, reject) => {
+            Aesdb.getTransaction().then(value => {
+                resolve(value.objectStore(name));
             }).catch(reason => {
                 reject(reason);
             })

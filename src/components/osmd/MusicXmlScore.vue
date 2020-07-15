@@ -22,8 +22,6 @@
                 osmd: null,
                 scoreLoading: false,
                 horizontalScreen: false,
-                dbStore: null,
-                map: {},
             };
         },
         watch: {
@@ -33,10 +31,6 @@
             }
         },
         async mounted() {
-            //加载缓存
-            Aesdb.getTransaction().then(value => {
-                this.dbStore = value.objectStore('cache_xml');
-            });
             //加载osmd
             this.checkHorizontalScreen();
             this.osmd = new OpenSheetMusicDisplay(this.$refs.scorediv, {
@@ -52,25 +46,41 @@
         methods: {
             getCacheData(key) {
                 return new Promise((resolve) => {
-                    /*const request = this.dbStore.get(key);
-                    request.onerror = function() {
-                        resolve(null);
-                    };
-                    request.onsuccess = function(event) {
-                        resolve(event.target.result.name);
-                    };*/
-
-                    resolve(this.map[key]);
+                    this.getDbStore().then(dbStore => {
+                        const request = dbStore.index('urlPath').get(key);
+                        request.onerror = function () {
+                            resolve(null);
+                        };
+                        request.onsuccess = function (event) {
+                            if (event.target.result) {
+                                resolve(Buffer.from(event.target.result.value, 'base64'));
+                            }else {
+                                resolve(null);
+                            }
+                        };
+                    });
                 })
             },
             setCacheData(key, value) {
-                // this.dbStore.add({
-                //     key: key, value: value
-                // })
-                this.map[key] =value;
+                return new Promise(resolve => {
+                    this.getDbStore().then(dbStore => {
+                        const request = dbStore.add({
+                            urlPath: key, value: value
+                        });
+                        request.onerror = function () {
+                            resolve();
+                        };
+                        request.onsuccess = function () {
+                            resolve();
+                        };
+                    });
+                })
+            },
+            getDbStore() {
+                return Aesdb.getObjectStore('cache_xml');
             },
 
-            async loadScore(scoreUrl) {
+            async loadScore(scoreUrl, retry) {
                 this.scoreLoading = true;
                 //0. 检查缓存
                 let cacheData = await this.getCacheData(scoreUrl);
@@ -86,13 +96,19 @@
                     //2. 解压
                     const unGzData = zlib.gunzipSync(Buffer.from(urlRv.data, 'base64'));
                     //3. 存入本地缓存库(按base64编码存储)
-                    this.setCacheData(scoreUrl, unGzData);
-                    //4. 重载
-                    await this.loadScore(scoreUrl);
-                    return;
+                    await this.setCacheData(scoreUrl, unGzData.toString('base64'));
+
+                    if (retry){
+                        // 被重载了，可能是缓存的问题
+                        cacheData = Aesdb.decrypt(unGzData);// 解密
+                        cacheData = cacheData.toString('utf-8');// 转回
+                    }else {
+                        //第一次运行
+                        //4. 重载
+                        await this.loadScore(scoreUrl, true);
+                        return;
+                    }
                 }
-                console.log('cacheData')
-                console.log(cacheData)
                 // 开始加载
                 await this.osmd.load(cacheData);
                 this.scoreLoading = false;

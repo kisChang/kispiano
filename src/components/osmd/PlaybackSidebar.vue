@@ -77,7 +77,9 @@
         },
         methods: {
             midiChangeListener(midiIn, midiOut){
-                this.midiName = midiIn.name;
+                if (midiIn){
+                    this.midiName = midiIn.name;
+                }
             },
             updateUsingType(nowVal){
                 this.$emit('setPlayType', nowVal);
