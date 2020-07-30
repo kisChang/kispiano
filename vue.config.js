@@ -27,13 +27,14 @@ module.exports = {
             // 代码混淆
             config.plugins.splice(1, 0, new JavaScriptObfuscator({
                 compact: true,
-                rotateStringArray: true,
+                rotateStringArray: false,
                 identifierNamesGenerator: 'hexadecimal',
+                sourceMap: false,
                 stringArray: true,
                 debugProtection: true, /*禁用开发者工具*/
-                selfDefending: false, /*无法开启，启动白屏*/
-                stringArrayEncoding: false,  /*无法开启，编译过程一直报错：URIError: URI malformed*/
-                stringArrayThreshold: 0.8,
+                selfDefending: true,
+                stringArrayEncoding: true,
+                stringArrayThreshold: 1,
                 log: false,
                 target: "browser"
             }));

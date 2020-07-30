@@ -36,7 +36,6 @@
         }),
         mounted() {//加载琴谱列表
             this.submitSearch();
-            console.log('id >>>' + this.$route.query.id);
         },
         watch: {
             pageNow(nowVal){
@@ -47,7 +46,8 @@
             submitSearch(){
                 xmlSetListById({page: (this.pageNow - 1), pageSize: 15, name: this.$route.query.id}).then((resp) => {
                     this.musicxmlList = resp.data.content;
-                    this.pageSize = resp.data.totalPages ? resp.data.totalPages : 0;
+                    const tp = resp.data.totalPages ? resp.data.totalPages : 0;
+                    this.pageSize = tp <= 0 ? 1 : tp;
                     this.loading = false;
                 }).catch(_reason => {
                     this.loading = false;

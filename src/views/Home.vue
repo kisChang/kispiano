@@ -19,6 +19,12 @@
                         <p class="card-text text-right"><small class="text-muted">{{item.lastUpdate}}</small></p>
                     </div>
                 </div>
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-format="fluid"
+                     data-ad-layout-key="-ee+7t-22-e3+ww"
+                     data-ad-client="ca-pub-6016915356806412"
+                     data-ad-slot="9337924739"></ins>
             </div>
 
             <div class="music-card-list" style="margin-top: 15px;">
@@ -126,6 +132,9 @@
             });
         },
         mounted() {
+            //广告
+            (window.adsbygoogle || []).push({});
+
             // console.log("OK")
             //加载琴谱列表
             this.submitSearch();
