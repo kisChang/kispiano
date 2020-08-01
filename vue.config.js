@@ -1,7 +1,8 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const JavaScriptObfuscator = require('webpack-obfuscator');
+const TerserPlugin = require('terser-webpack-plugin')
 
 module.exports = {
+    productionSourceMap: false,
     pwa: {
         name: 'Kis Piano',
         themeColor: '#fafafa',
@@ -25,20 +26,22 @@ module.exports = {
             config.mode = 'production';
 
             // 代码混淆
-            config.plugins.splice(1, 0, new JavaScriptObfuscator({
-                compact: true,
-                rotateStringArray: false,
-                identifierNamesGenerator: 'hexadecimal',
-                sourceMap: false,
-                stringArray: true,
-                debugProtection: true, /*禁用开发者工具*/
-                selfDefending: true,
-                stringArrayEncoding: true,
-                stringArrayThreshold: 1,
-                log: false,
-                target: "browser"
-            }));
-            /*config.plugins.push();*/
+            // 将每个依赖包打包成单独的js文件
+            const optimization = {
+                minimize: true,
+                minimizer: [new TerserPlugin({
+                    terserOptions: {
+                        warnings: false,
+                        compress: {
+                            // eslint-disable-next-line @typescript-eslint/camelcase
+                            drop_console: true, drop_debugger: true, pure_funcs: ['console.log']
+                        },
+                    }
+                })],
+            };
+            Object.assign(config, {
+                optimization
+            })
         } else {
             // 为开发环境修改配置
             config.mode = 'development';
