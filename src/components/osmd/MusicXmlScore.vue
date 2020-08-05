@@ -1,9 +1,12 @@
 <template>
     <div>
-        <div class="score-progress" v-if="scoreLoading || !ready">
-            <div class="spinner spinner-grow text-primary" role="status" style="margin-top: 20%;">
-                <span class="sr-only">Loading...</span>
-            </div>
+        <div class="score-progress" v-show="scoreLoading || !ready">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-6016915356806412"
+                 data-ad-slot="3378412233"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
         </div>
         <div class="score" ref="scorediv" v-show="!scoreLoading" :style="{opacity: ready ? 100 : 0}"></div>
     </div>
@@ -33,6 +36,8 @@
             }
         },
         async mounted() {
+            //广告
+            (window.adsbygoogle || []).push({});
             //加载osmd
             this.checkHorizontalScreen();
             this.osmd = new OpenSheetMusicDisplay(this.$refs.scorediv, {
