@@ -42,6 +42,8 @@
                     </div>
                 </div>
             </div>
+
+            <cusFooter />
         </div>
 
         <div class="bottom-navigation">
@@ -88,7 +90,6 @@
                             立即检查并更新: V{{appVersion}}
                         </b-list-group-item>
                     </b-list-group>
-                    <cusFooter />
                 </div>
             </div>
         </transition>
