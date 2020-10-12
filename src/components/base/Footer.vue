@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div style="padding: 50px 0;">
         <small class="text-center footer-text" >© {{new Date().getFullYear()}} KisChang ❤ Powered by VUE</small>
         <a class="footer-icp" href="http://beian.miit.gov.cn" rel="noopener nofollow" target="_blank">京ICP备2020038220号</a>
     </div>
