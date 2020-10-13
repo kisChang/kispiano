@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="score-progress" v-show="scoreLoading || !ready">
+        <div class="score-progress" v-show="scoreLoading">
             <ins class="adsbygoogle"
                  style="display:block"
                  data-ad-client="ca-pub-6016915356806412"
@@ -8,7 +8,7 @@
                  data-ad-format="auto"
                  data-full-width-responsive="true"></ins>
         </div>
-        <div class="score" ref="scorediv" v-show="!scoreLoading" :style="{opacity: ready ? 100 : 0}"></div>
+        <div class="score" ref="scorediv" v-show="!scoreLoading" :style="{opacity: ready ? 1 : 0}"></div>
     </div>
 </template>
 

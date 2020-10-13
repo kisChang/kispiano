@@ -143,8 +143,9 @@
             this.loadHotSet();
 
             //应用初始化
-            MidiUsb.init();
-
+            MidiUsb.init().then().catch(reason => {
+                console.warn(reason);
+            });
         },
         beforeDestroy(){
             console.log("OK")
