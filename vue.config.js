@@ -2,12 +2,13 @@
 const TerserPlugin = require('terser-webpack-plugin')
 
 const cdn = {
-    css: [],
+    css: [
+    ],
     js: [
         'https://cdn.bootcdn.net/ajax/libs/core-js/3.6.5/minified.min.js',
         'https://cdn.bootcdn.net/ajax/libs/vue/2.6.12/vue.min.js',
         'https://cdn.bootcdn.net/ajax/libs/vue-router/3.2.0/vue-router.min.js',
-        'https://cdn.bootcdn.net/ajax/libs/bootstrap-vue/2.10.0/bootstrap-vue.min.js'
+        // 'https://cdn.bootcdn.net/ajax/libs/bootstrap-vue/2.10.0/bootstrap-vue.min.js'
     ]
 };
 
@@ -48,7 +49,12 @@ module.exports = {
 
     configureWebpack: config => {
         // 用cdn方式引入
-        config.externals = ['vue', 'vue-router', 'core-js', 'bootstrap-vue'];
+        config.externals = {
+            'vue': "Vue",
+            'vue-router': "VueRouter",
+            'core-js': 'core-js',
+            // 'bootstrap-vue': 'bootstrap-vue'
+        };
 
         //代码压缩
         if (process.env.NODE_ENV === 'production') {
