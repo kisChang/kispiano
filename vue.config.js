@@ -5,8 +5,8 @@ const cdn = {
     css: [],
     js: [
         'https://cdn.bootcdn.net/ajax/libs/core-js/3.6.5/minified.min.js',
-        'https://cdn.bootcss.com/vue/2.6.10/vue.runtime.min.js',
-        'https://cdn.bootcss.com/vue-router/3.2.0/vue-router.min.js',
+        'https://cdn.bootcdn.net/ajax/libs/vue/2.6.12/vue.min.js',
+        'https://cdn.bootcdn.net/ajax/libs/vue-router/3.2.0/vue-router.min.js',
         'https://cdn.bootcdn.net/ajax/libs/bootstrap-vue/2.10.0/bootstrap-vue.min.js'
     ]
 };
