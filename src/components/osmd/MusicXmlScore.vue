@@ -25,7 +25,7 @@
             return {
                 datetime: datetime,
                 osmd: null,
-                scoreLoading: false,
+                scoreLoading: true,
                 horizontalScreen: false,
             };
         },
@@ -37,7 +37,10 @@
         },
         async mounted() {
             //广告
-            (window.adsbygoogle || []).push({});
+            try {
+                (window.adsbygoogle || []).push({});
+                // eslint-disable-next-line no-empty
+            }catch (e) {}
             //加载osmd
             this.checkHorizontalScreen();
             this.osmd = new OpenSheetMusicDisplay(this.$refs.scorediv, {

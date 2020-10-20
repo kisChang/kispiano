@@ -134,7 +134,10 @@
         },
         mounted() {
             //广告
-            (window.adsbygoogle || []).push({});
+            try {
+                (window.adsbygoogle || []).push({});
+                // eslint-disable-next-line no-empty
+            }catch (e) {}
 
             // console.log("OK")
             //加载琴谱列表
