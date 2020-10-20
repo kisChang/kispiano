@@ -121,13 +121,14 @@
                 }
                 // 开始加载
                 await this.osmd.load(cacheData);
-                this.scoreLoading = false;
                 await this.$nextTick();
                 //// my Code
                 this.osmd.zoom = this.horizontalScreen ? 0.5 : 0.4;
                 //// my Code End
                 await this.osmd.render();
                 this.$emit("scoreLoaded");
+				
+                this.scoreLoading = false;
             },
 
             checkHorizontalScreen() {
